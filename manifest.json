@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "PoE-Trade-Extensions",
+  "version": "0.1",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "PoE-Trade-Extension",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+  {
+    "matches": ["https://www.pathofexile.com/trade/*"],
+    "js": ["content.js"]
+  },
+  {
+    "matches": ["https://pob.party/"],
+    "js": ["pob.js"]
+  }],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources" : ["pob-injected.js"]
+}

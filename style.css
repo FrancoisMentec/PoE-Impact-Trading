@@ -1,0 +1,11 @@
+html, body {
+  box-sizing: border-box;
+  width: 320px;
+  padding: 8px;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0;
+}
