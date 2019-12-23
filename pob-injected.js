@@ -45,6 +45,8 @@ function override () {
   _inject_paste = Module["_inject_paste"] = function() {
     console.log('_inject_paste')
     console.log(arguments)
+    var err = new Error()
+    console.error(err.stack)
    return Module["asm"]["Ga"].apply(null, arguments);
  }
 }
@@ -76,12 +78,26 @@ function clickOn (name) {
   glCanvas.dispatchEvent(createMouseEvent('mouseup', coords[0], coords[1]))
 }
 
+function paste (value) {
+  let dt = new DataTransfer()
+  dt.getData = function (t) { return value }
+  let e = new ClipboardEvent('paste', {
+    clipboardData: dt,
+    dataType: 'text/plain',
+    data: value
+  })
+  window.body.dispatchEvent(e)
+}
+
 function test () {
   clickOn('items')
   setTimeout(() => {
     clickOn('create_custom')
-    setTimeout(() => { clickOn('middle') }, 1)
-  }, 1)
-  _inject_paste()
-  Module["_inject_paste"]()
+    setTimeout(() => {
+      clickOn('middle')
+      setTimeout(() => {
+        paste('hello world')
+      }, 10)
+    }, 10)
+  }, 10)
 }
