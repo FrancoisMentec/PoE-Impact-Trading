@@ -3,21 +3,24 @@
   "name": "PoE-Trade-Extensions",
   "version": "0.1",
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "icon-38.png",
     "default_title": "PoE-Trade-Extension",
     "default_popup": "popup.html"
   },
   "content_scripts": [
   {
     "matches": ["https://www.pathofexile.com/trade/*"],
-    "js": ["content.js"]
+    "css": ["trade.css"],
+    "js": ["trade.js"]
   },
   {
     "matches": ["https://pob.party/"],
-    "js": ["pob.js"]
+    "js": ["pob.js"],
+    "all_frames": true
   }],
   "background": {
     "scripts": ["background.js"]
   },
-  "web_accessible_resources" : ["pob-injected.js"]
+  "web_accessible_resources" : ["trade-injected.js", "pob-injected.js"],
+  "permissions": ["storage"]
 }

@@ -1,6 +1,6 @@
 html, body {
   box-sizing: border-box;
-  width: 320px;
+  width: auto;
   padding: 8px;
   margin: 0;
 }
@@ -8,4 +8,8 @@ html, body {
 h1 {
   font-size: 2em;
   margin: 0;
+}
+
+.error {
+  color: #ba000d;
 }

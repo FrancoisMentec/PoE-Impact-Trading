@@ -7,4 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.runtime.sendMessage({"message": "open_pob", "code": code.value})
   }
   document.getElementById('load_pob_button').addEventListener('click', openPoB)
+
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.message == 'message') {
+      message.className = request.type
+      message.innerHTML = request.content
+    }
+  })
+
+  chrome.runtime.sendMessage({'message': 'get_message'})
 })

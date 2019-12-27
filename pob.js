@@ -1,10 +1,7 @@
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.message === "hello") {
-    alert('hello world')
-  }
-})
-
-var script = document.createElement('script')
-script.setAttribute('type', 'text/javascript')
-script.setAttribute('src', chrome.extension.getURL('/pob-injected.js'))
-document.body.appendChild(script)
+//if (parent === top) { // check we're in an iframe
+  // Inject code
+  let script = document.createElement('script')
+  script.setAttribute('type', 'text/javascript')
+  script.setAttribute('src', chrome.extension.getURL('/pob-injected.js'))
+  document.body.appendChild(script)
+//}
