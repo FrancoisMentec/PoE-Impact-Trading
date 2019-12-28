@@ -1,10 +1,11 @@
-let pob = null
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.message === 'open_pob') {
-    chrome.tabs.create({'url': 'https://pob.party/'}, tab => {
-      pob = tab
-      chrome.tabs.sendMessage(pob.id, {'message': 'import', 'code': request.code})
+  if (request.message == 'set_build_code') {
+    chrome.storage.sync.set({build_code: request.code}, () => {
+      message('Build code set', 'message')
+    })
+  } else if (request.message == 'get_build_code') {
+    chrome.storage.sync.get(['build_code'], r => {
+      chrome.runtime.sendMessage({'message': 'code', 'code': r.build_code || ''})
     })
   } else if (request.message == 'get_item_impact') {
     if (pob == null) {

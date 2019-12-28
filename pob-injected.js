@@ -1,24 +1,67 @@
-let y2name = {}
-let stats = {}
-
 let inputStack = []
 let overrided = false
-let createCustom = false
 
 let itemImpactCoord = null
-let newItemImpact = []
-let itemImpact = []
+
+let propertiesList = []
+class Property {
+  constructor (defaultValue) {
+    this.defaultValue = Array.isArray(defaultValue)
+      ? defaultValue.slice()
+      : defaultValue
+    this._val = Array.isArray(this.defaultValue)
+      ? this.defaultValue.slice()
+      : this.defaultValue
+    this._new = Array.isArray(this.defaultValue)
+      ? this.defaultValue.slice()
+      : this.defaultValue
+
+    propertiesList.push(this)
+  }
+
+  set val (val) {
+    this._new = val
+    this._val = val
+  }
+
+  get val () {
+    return this._val
+  }
+
+  push (val) {
+    this._new.push(val)
+  }
+
+  update () {
+    this._val = Array.isArray(this._new)
+      ? this._new.slice()
+      : this._new
+    this._new = Array.isArray(this.defaultValue)
+      ? this.defaultValue.slice()
+      : this.defaultValue
+  }
+}
+
+let itemImpact = new Property([])
+let createItemVisible = new Property(false)
 
 window.addEventListener('message', e => {
   if (e.data.message == 'get_item_impact') {
-    if (!createCustom) {
-      clickOn('items')
-      clickOn('create_custom')
-      clickOn('middle')
-      createCustom = true
-    }
+    clickOn('items')
+    clickOn('create_custom')
     paste(e.data.text)
-    console.log(e.data.text)
+    moveTo('Create')
+    inputStack.push(['skip'])
+    inputStack.push(['set_item_impact', e.data.dataId])
+    clickOn('Cancel')
+  } else if (e.data.message == 'import_build') {
+    console.log('import doesnt work');
+    //console.log(e.data.code);
+    /*clickOn('import/export')
+    clickOn('import_code')
+    paste('test')*/
+    //paste(e.data.code)
+    //clickOn('import')
   }
 }, false)
 
@@ -26,13 +69,13 @@ function override () {
   let cloneDraw = Object.assign({}, draw)
 
   draw.StartFrame = function () {
-    y2name = {}
-    newItemImpact = []
     cloneDraw.StartFrame.call(draw)
   }
 
   draw.EndFrame = function () {
-    itemImpact = newItemImpact
+    for (let p of propertiesList) {
+      p.update()
+    }
     if (inputStack.length > 0) {
       triggerInput(inputStack.shift())
     }
@@ -40,20 +83,15 @@ function override () {
   }
 
   draw.p_DrawString = function p_DrawString (x, y, align, size, font, text) {
-    let r = /(\^(?:[ABCDEF0123456789]|x[ABCDEF0123456789]{6}))?(.*)/.exec(text)
-    let value = r[2]
-
-    if (x == 170 && align == 'RIGHT_X') {
-      y2name[y] = value
-    } else if (x == 174 && align == 'LEFT') {
-      stats[y2name[y]] = value
-    } else if (text == 'Create') {
-      coordsOf['create'] = [x, y]
+    if (['Create', 'Cancel'].includes(text)) {
+      coordsOf[text] = [x, y]
     } else if (text.startsWith('^7Equipping this item')) {
       itemImpactCoord = {x: x, y: y}
-      newItemImpact.push(value)
+      itemImpact.push(text)
     } else if (itemImpactCoord != null && x == itemImpactCoord.x && y > itemImpactCoord.y) {
-      newItemImpact.push(value)
+      itemImpact.push(text)
+    } else if (text == 'Create Custom Item from Text') {
+      createItemVisible.val = true
     }
 
     //console.log(text)
@@ -68,9 +106,9 @@ function override () {
     console.log(e)
     console.log(target)
     clone__fillMouseEventData(eventStruct, e, target)
-  }*/
+  }
 
-  /*let clone__registerKeyEventCallback = __registerKeyEventCallback.bind({})
+  let clone__registerKeyEventCallback = __registerKeyEventCallback.bind({})
   __registerKeyEventCallback = function (target, userData, useCapture, callbackfunc, eventTypeId, eventTypeString, targetThread) {
     console.log((i++) + " __registerKeyEventCallback -----------------------------------------------")
     console.log(target)
@@ -80,11 +118,9 @@ function override () {
     clone__registerKeyEventCallback(target, userData, useCapture, callbackfunc, eventTypeId, eventTypeString, targetThread)
   }
 
-  _inject_paste = Module["_inject_paste"] = function() {
+  _inject_paste = Module["_inject_paste"] = function () {
     console.log('_inject_paste')
     console.log(arguments)
-    var err = new Error()
-    console.error(err.stack)
    return Module["asm"]["Ga"].apply(null, arguments);
  }*/
 }
@@ -98,25 +134,41 @@ let coordsOf = {
   'import/export': [69, 44],
   'import_code': [379, 179],
   'import': [349, 235],
-  'middle': [() => window.innerWidth/2, () => window.innerHeight/2],
-  'create': null
+  'middle': [() => window.innerWidth/2, () => window.innerHeight/2]
 }
 
+window.body.addEventListener('paste', e => {
+  console.log(e.clipboardData.getData('text'));
+  console.log(e);
+})
+
 function triggerInput (input) {
-  if (input[0].startsWith('mouse')) { // Mouse Events
+  if (input[0] == 'skip') {
+    return
+  } else if (input[0].startsWith('mouse')) { // Mouse Events
     let coords = coordsOf[input[1]]
     if (typeof coords[0] == 'function') coords[0] = coords[0]()
     if (typeof coords[1] == 'function') coords[1] = coords[1]()
     glCanvas.dispatchEvent(createMouseEvent(input[0], coords[0], coords[1]))
   } else if (input[0] == 'paste') { // Paste
-    let dt = new DataTransfer()
-    dt.getData = function (t) { return input[1] }
+    /*let dt = new DataTransfer()
+    dt.setData('text/plain', input[1])
     let e = new ClipboardEvent('paste', {
       clipboardData: dt,
       dataType: 'text/plain',
-      data: input[1]
+      data: input[1],
+      bubbles: true,
+      cancelable: true,
+      composed: true
     })
-    window.body.dispatchEvent(e)
+    window.body.dispatchEvent(e)*/
+    Module["asm"]["Ga"].apply(null, [allocate(intArrayFromString(input[1]), "i8", ALLOC_NORMAL)])
+  } else if (input[0] == 'set_item_impact') {
+    window.top.postMessage({
+      message: 'set_item_impact',
+      itemImpact: itemImpact.val,
+      dataId: input[1]
+    }, '*')
   } else {
     throw new Error('Unknown event type: ' + input[0])
   }
@@ -142,54 +194,4 @@ function moveTo (name) {
 
 function paste (value) {
   inputStack.push(['paste', value])
-}
-
-function test () {
-  /*clickOn('items')
-  setTimeout(() => {
-    clickOn('create_custom')
-    setTimeout(() => {
-      clickOn('middle')
-      setTimeout(() => {
-        paste('hello world')
-      }, 10)
-    }, 10)
-  }, 10)*/
-  clickOn('items')
-  clickOn('create_custom')
-  clickOn('middle')
-  paste(`Rarity: Unique
-Death's Opus
-Death Bow
---------
-Bow
-Quality: +20% (augmented)
-Physical Damage: 79-200 (augmented)
-Critical Strike Chance: 7.40% (augmented)
-Attacks per Second: 1.32 (augmented)
---------
-Requirements:
-Level: 44
-Dex: 107
---------
-Sockets: R-G-G-G
---------
-Item Level: 33
---------
-48% increased Critical Strike Chance (implicit)
---------
-113% increased Physical Damage
-Adds 14 to 33 Physical Damage
-10% increased Attack Speed
-+100% to Global Critical Strike Multiplier
-Bow Attacks fire 2 additional Arrows
---------
-The overture stretches thin,
-The chorus gathers to begin.
-Stacatto, drone, a rest drawn long,
-Another hears Death's final song.
---------
-Note: ~price 140 chaos
-`)
-  moveTo('create')
 }
