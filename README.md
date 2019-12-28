@@ -1,6 +1,8 @@
 # PoE-Trade-Extension
 A chrome extension to check the impact an item on https://www.pathofexile.com/trade has on your build.
 
+![](img/capture-2.png?raw=true)
+
 ## Installation
 - Download this repository
 - Go to [chrome://extensions/](chrome://extensions/)
