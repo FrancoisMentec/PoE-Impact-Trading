@@ -1,7 +1,7 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message == 'set_build_code') {
     chrome.storage.sync.set({build_code: request.code}, () => {
-      message('Build code set', 'message')
+      message('Build code set at ' + (new Date()), 'message')
     })
   } else if (request.message == 'get_build_code') {
     chrome.storage.sync.get(['build_code'], r => {
