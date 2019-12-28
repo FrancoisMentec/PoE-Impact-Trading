@@ -3,7 +3,7 @@ if (parent === top) { // check we're in an iframe
 
   let script = document.createElement('script')
   script.setAttribute('type', 'text/javascript')
-  script.setAttribute('src', chrome.extension.getURL('/pob-injected.js'))
+  script.setAttribute('src', chrome.extension.getURL('js/pob-injected.js'))
   document.body.appendChild(script)
 
   /*setTimeout(() => {

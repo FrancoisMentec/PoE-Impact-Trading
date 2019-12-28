@@ -70,3 +70,16 @@
   z-index: 2;
   margin: 0;
 }
+
+#github-link {
+  display: inline-block;
+  color: white;
+  margin-top: 8px;
+  height: 16px;
+  line-height: 16px;
+}
+
+#github-link > svg {
+  margin-right: 4px;
+  vertical-align: bottom;
+}

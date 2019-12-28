@@ -30,7 +30,7 @@ function message (content, type) {
     type: type
   }
   chrome.browserAction.setIcon({
-      path: _message.type == 'error' ? 'error-38.png' : 'icon-38.png'
+      path: _message.type == 'error' ? 'img/error-38.png' : 'img/icon-38.png'
   })
   chrome.runtime.sendMessage({'message': 'message', 'type': _message.type, 'content': _message.content})
 }
