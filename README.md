@@ -12,6 +12,7 @@ A chrome extension to check the impact an item on https://www.pathofexile.com/tr
 
 ## Use
 - Import you're build in PoB (not gonna explain how to do that)
+- Be sure to select the spell on which you want to see the impact
 - Export your build, copy the code
 - Import the build on https://pob.party/
 - Get a sharable link using the **Share & Config button** (bottom left)
