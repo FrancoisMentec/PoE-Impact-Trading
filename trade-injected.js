@@ -1,8 +1,9 @@
-let pob = document.getElementById('pob-iframe')
-
 let itemByDataId = {}
 
 let observer = new MutationObserver((mutationsList, observer) => {
+  let pob = document.getElementById('pob-iframe')
+  if (typeof pob == 'undefined' || pob == null) return // pob is disabled
+
   for (let mutation of mutationsList) {
     for (let node of mutation.addedNodes) {
       if (node.className == 'row') {

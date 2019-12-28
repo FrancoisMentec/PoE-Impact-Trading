@@ -1,8 +1,13 @@
 html, body {
   box-sizing: border-box;
   width: auto;
-  padding: 8px;
+  height: auto;
   margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 8px;
 }
 
 h1 {
