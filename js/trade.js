@@ -1,3 +1,4 @@
+{
 let storage = chrome.storage.sync
 let pob = null
 let script = null
@@ -139,3 +140,4 @@ function injectCode () {
 }
 
 loadPob()
+}
