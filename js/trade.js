@@ -37,14 +37,15 @@ toggleButton.className = 'pte-button'
 toggleButton.innerHTML = 'Disable for this tab'
 toggleButton.addEventListener('click', e => {
   if (pob == null) {
-    loadPob()
+    loadPob().then(() => {
+      message('You need to perform a new search to compute the impact of items.', 'message', 5000)
+    })
   } else {
     document.body.removeChild(pob)
     pob = null
+    toggleButton.innerHTML = 'Enable for this tab'
+    togglePobVisibleButton.innerHTML = 'Show PoB'
   }
-  toggleButton.innerHTML = pob == null
-    ? 'Enable for this tab'
-    : 'Disable for this tab'
 })
 controlPanel.appendChild(toggleButton)
 
@@ -63,6 +64,8 @@ togglePobVisibleButton.addEventListener('click', e => {
     togglePobVisibleButton.innerHTML = pob.classList.contains('visible')
       ? 'Hide PoB'
       : 'Show PoB'
+  } else {
+    message('PoB is disabled', 'error', 5000)
   }
 })
 controlPanel.appendChild(togglePobVisibleButton)
@@ -91,7 +94,9 @@ let messageDiv = document.createElement('div')
 messageDiv.setAttribute('id', 'pte-message')
 controlPanel.appendChild(messageDiv)
 
+let messageTimeout = null
 function message (content, type='message', timeout=null) {
+  clearTimeout(messageTimeout)
   messageDiv.className = type
   messageDiv.innerHTML = content
 
@@ -103,7 +108,7 @@ function message (content, type='message', timeout=null) {
   }
 
   if (timeout != null) {
-    setTimeout(() => {
+    messageTimeout = setTimeout(() => {
       messageDiv.className = ''
       messageDiv.innerHTML = ''
     }, timeout)
@@ -120,7 +125,7 @@ githubLink.innerHTML = githubLogo + 'GitHub'
 controlPanel.appendChild(githubLink)
 
 // Get pob link, load pob and inject code
-function loadPob () { // Create pob iframe
+async function loadPob () { // Create pob iframe
   storage.get(['build_code'], res => {
     if (typeof res.build_code == 'string') {
       if (res.build_code.match(/^https:\/\/pob.party\/share\/[a-z]*$/) != null) {
@@ -131,6 +136,8 @@ function loadPob () { // Create pob iframe
         pob.setAttribute('src', res.build_code)
         document.body.appendChild(pob)
 
+        toggleButton.innerHTML = 'Disable for this tab'
+
         injectCode()
       } else {
         message('Build link is incorrect: ' + res.build_code, 'error')
@@ -138,6 +145,7 @@ function loadPob () { // Create pob iframe
     } else {
       message('pob.party link is not defined', 'error')
     }
+    return
   })
 }
 

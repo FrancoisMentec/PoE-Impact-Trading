@@ -59,7 +59,13 @@ window.addEventListener('message', e => {
     iframeVisible = e.data.value
   }
 
-  if (typeof Browser != 'undefined') Browser.mainLoop.resume()
+  if (typeof Browser != 'undefined') {
+    try {
+      Browser.mainLoop.resume()
+    } catch (err) {
+      // Sometimes the runner isn't defined yet, no need to print the error
+    }
+  }
 }, false)
 
 function override () {
