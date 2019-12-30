@@ -1,5 +1,6 @@
 let inputStack = []
 let overrided = false
+let iframeVisible = false
 
 let itemImpactCoord = null
 
@@ -54,19 +55,16 @@ window.addEventListener('message', e => {
     inputStack.push(['skip'])
     inputStack.push(['set_item_impact', e.data.dataId])
     clickOn('Cancel')
-  } else if (e.data.message == 'import_build') {
-    console.log('import doesnt work');
-    //console.log(e.data.code);
-    /*clickOn('import/export')
-    clickOn('import_code')
-    paste('test')*/
-    //paste(e.data.code)
-    //clickOn('import')
+  } else if (e.data.message == 'set_visible') {
+    iframeVisible = e.data.value
   }
+
+  if (typeof Browser != 'undefined') Browser.mainLoop.resume()
 }, false)
 
 function override () {
   if (typeof draw == 'undefined') return // We're on a shareable link
+
   let cloneDraw = Object.assign({}, draw)
 
   draw.StartFrame = function () {
@@ -79,6 +77,8 @@ function override () {
     }
     if (inputStack.length > 0) {
       triggerInput(inputStack.shift())
+    } else if (window.self !== window.top && !iframeVisible) {
+      Browser.mainLoop.pause() // pause to save GPU
     }
     cloneDraw.EndFrame.call(draw)
   }
@@ -94,10 +94,8 @@ function override () {
     } else if (text == 'Create Custom Item from Text') {
       createItemVisible.val = true
     }
-
     //console.log(text)
     //console.log(`${text} (${x}, ${y})`)
-
     cloneDraw.p_DrawString.call(draw, x, y, align, size, font, text)
   }
 

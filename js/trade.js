@@ -55,6 +55,10 @@ togglePobVisibleButton.innerHTML = 'Show/Hide PoB'
 togglePobVisibleButton.addEventListener('click', e => {
   if (pob != null) {
     pob.classList.toggle('visible')
+    pob.contentWindow.postMessage({
+      message: 'set_visible',
+      value: pob.classList.contains('visible')
+    }, 'https://pob.party/')
   }
 })
 controlPanel.appendChild(togglePobVisibleButton)
