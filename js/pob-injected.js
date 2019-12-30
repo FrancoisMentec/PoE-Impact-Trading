@@ -66,6 +66,7 @@ window.addEventListener('message', e => {
 }, false)
 
 function override () {
+  if (typeof draw == 'undefined') return // We're on a shareable link
   let cloneDraw = Object.assign({}, draw)
 
   draw.StartFrame = function () {
@@ -136,11 +137,6 @@ let coordsOf = {
   'import': [349, 235],
   'middle': [() => window.innerWidth/2, () => window.innerHeight/2]
 }
-
-window.body.addEventListener('paste', e => {
-  console.log(e.clipboardData.getData('text'));
-  console.log(e);
-})
 
 function triggerInput (input) {
   if (input[0] == 'skip') {

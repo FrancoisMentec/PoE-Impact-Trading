@@ -17,7 +17,7 @@
     "js": ["js/trade.js"]
   },
   {
-    "matches": ["https://pob.party/"],
+    "matches": ["https://pob.party/*"],
     "js": ["js/pob.js"],
     "all_frames": true
   }],

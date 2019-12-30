@@ -1,6 +1,5 @@
 if (parent === top) { // check we're in an iframe
   // Inject code
-
   let script = document.createElement('script')
   script.setAttribute('type', 'text/javascript')
   script.setAttribute('src', chrome.extension.getURL('js/pob-injected.js'))
@@ -19,6 +18,4 @@ if (parent === top) { // check we're in an iframe
       }
     })
   }, 1000)*/
-
-
 }
