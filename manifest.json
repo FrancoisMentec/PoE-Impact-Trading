@@ -8,8 +8,7 @@
       "128": "img/icon-128.png",
       "335": "img/icon.png"
     },
-    "default_title": "PoE-Trade-Extension",
-    "default_popup": "popup.html"
+    "default_title": "PoE-Trade-Extension"
   },
   "content_scripts": [
   {
@@ -22,9 +21,6 @@
     "js": ["js/pob.js"],
     "all_frames": true
   }],
-  "background": {
-    "scripts": ["js/background.js"]
-  },
-  "web_accessible_resources" : ["js/trade-injected.js", "js/pob-injected.js"],
+  "web_accessible_resources" : ["js/trade-injected.js", "js/pob-injected.js", "img/icon-40.png"],
   "permissions": ["storage"]
 }
