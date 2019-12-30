@@ -21,6 +21,6 @@
     "js": ["js/pob.js"],
     "all_frames": true
   }],
-  "web_accessible_resources" : ["js/trade-injected.js", "js/pob-injected.js", "img/icon-40.png"],
+  "web_accessible_resources" : ["js/trade-injected.js", "js/pob-injected.js", "img/icon-40.png", "img/error-40.png"],
   "permissions": ["storage"]
 }

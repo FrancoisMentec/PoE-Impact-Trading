@@ -3,6 +3,7 @@ let pob = null
 let script = null
 let pobRegex = /^https:\/\/pob.party\/share\/[a-z]*$/
 let icon = `<img src="${chrome.extension.getURL('img/icon-40.png')}">`
+let errorIcon = `<img src="${chrome.extension.getURL('img/error-40.png')}">`
 
 // Build User Interface
 let controlPanel = document.createElement('div')
@@ -82,8 +83,10 @@ controlPanel.appendChild(messageDiv)
 function message (content, type='message', timeout=null) {
   messageDiv.className = type
   messageDiv.innerHTML = content
+
   if (type == 'error') {
     console.error(content)
+    if (!controlPanel.classList.contains('visible')) togglePanelButton.innerHTML = errorIcon
   } else {
     console.log(content)
   }
