@@ -27,7 +27,8 @@ You need to reproduce this process everytime you reboot Firefox, I'll try to pub
 - Export your build, copy the code.
 - Import the build on https://pob.party/. If you can't paste the code, try with a different browser (chrome should work).
 - Get a sharable link using the **Share & Config button** (bottom left).
-- You should see a icon in the top left corner of https://www.pathofexile.com/trade page, click on it, paste the link in the text field then click on **SET LINK** ![](img/control-panel.png?raw=true).
+- You should see a icon in the top left corner of https://www.pathofexile.com/trade page, click on it, paste the link in the text field then click on **SET LINK**.
+- ![](img/control-panel.png?raw=true).
 - Now you can search items and check the impact an item has on your build.
 
 ## Why it may not work
