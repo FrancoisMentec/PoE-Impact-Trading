@@ -16,7 +16,7 @@ A browser extension to check the impact an item on https://www.pathofexile.com/t
 ### Firefox
 - Go to <a href="about:debugging">*about:debugging*</a>.
 - Click on **This firefox**.
-- Click on **Load Temporary Add-on...**.
+- Click on **Load Temporary Add-on...**
 - Select the **manifest.json** file in the **PoE-Trade-Extension** folder you just extracted.  
 
 You need to reproduce this process everytime you reboot Firefox, I'll try to publish the extension later.
