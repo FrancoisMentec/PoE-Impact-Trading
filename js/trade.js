@@ -41,8 +41,7 @@ toggleButton.addEventListener('click', e => {
       message('You need to perform a new search to compute the impact of items.', 'message', 5000)
     })
   } else {
-    document.body.removeChild(pob)
-    pob = null
+    unloadPob()
     toggleButton.innerHTML = 'Enable for this tab'
     togglePobVisibleButton.innerHTML = 'Show PoB'
   }
@@ -83,7 +82,7 @@ pobLinkButton.className = 'pte-button'
 pobLinkButton.innerHTML = 'SET LINK'
 pobLinkButton.addEventListener('click', e => {
   storage.set({build_code: pobLinkInput.value}, () => {
-    message('Build link set: ' + pobLinkInput.value, 'message', 5000)
+    message('Build link set: ' + pobLinkInput.value + '<br>You need to perform a new search to update the values.', 'message', 8000)
     loadPob()
   })
 })
@@ -95,10 +94,17 @@ messageDiv.setAttribute('id', 'pte-message')
 controlPanel.appendChild(messageDiv)
 
 let messageTimeout = null
-function message (content, type='message', timeout=null) {
+function message (content, type='message', timeout=null, append=false) {
   clearTimeout(messageTimeout)
+
   messageDiv.className = type
-  messageDiv.innerHTML = content
+
+  if (append) {
+    if (messageDiv.innerHTML.length > 0) messageDiv.innerHTML += '<br>'
+    messageDiv.innerHTML += content
+  } else {
+    messageDiv.innerHTML = content
+  }
 
   if (type == 'error') {
     console.error(content)
@@ -131,6 +137,10 @@ async function loadPob () { // Create pob iframe
       if (res.build_code.match(/^https:\/\/pob.party\/share\/[a-z]*$/) != null) {
         pobLinkInput.value = res.build_code
 
+        if (pob != null) {
+          unloadPob() // unload current pob first
+        }
+
         pob = document.createElement('iframe')
         pob.setAttribute('id', 'pob-iframe')
         pob.setAttribute('src', res.build_code)
@@ -147,6 +157,11 @@ async function loadPob () { // Create pob iframe
     }
     return
   })
+}
+
+function unloadPob () {
+  document.body.removeChild(pob)
+  pob = null
 }
 
 function injectCode () {
