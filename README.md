@@ -54,3 +54,6 @@ You can submit an issue [here](https://github.com/FrancoisMentec/PoE-Trade-Exten
 
 ## How does it work
 It opens pob.party in an iframe then interact with it using user inputs and hooking drawing functions. It's not very clean but it works.
+
+## How can I support you
+The time I spend developing this extension isn't spent farming, so any in game currency or T14-16 maps (I'm short on those, I must be doing something wrong with my atlas) is welcomed. My account name is **lordfighter** and my current character in Metamorph is **Saig_Ice_Shot**, if you're as broke as am I you can just say hi, knowing there are people using my extension is very motivating.
