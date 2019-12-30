@@ -10,6 +10,9 @@
     },
     "default_title": "PoE-Trade-Extension"
   },
+  "background": {
+    "scripts": ["js/background.js"]
+  },
   "content_scripts": [
   {
     "matches": ["https://www.pathofexile.com/trade/*"],
