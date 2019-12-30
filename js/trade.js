@@ -69,15 +69,19 @@ controlPanel.appendChild(githubLink)
 // Get pob link, load pob and inject code
 chrome.storage.sync.get(['build_code'], res => {
   if (typeof res.build_code == 'string') {
-    pobLink = res.build_code
-    loadPob()
+    if (res.build_code.match(/^https:\/\/pob.party\/share\/[a-z]*$/) != null) {
+      pobLink = res.build_code
+      loadPob()
 
-    // Inject code
-    let script = document.createElement('script')
-    script.setAttribute('type', 'text/javascript')
-    script.setAttribute('src', chrome.extension.getURL('js/trade-injected.js'))
-    document.body.appendChild(script)
+      // Inject code
+      let script = document.createElement('script')
+      script.setAttribute('type', 'text/javascript')
+      script.setAttribute('src', chrome.extension.getURL('js/trade-injected.js'))
+      document.body.appendChild(script)
+    } else {
+      console.error('Build link is incorrect: ' + res.build_code)
+    }
   } else {
-    console.error('No build code defined')
+    console.error('No build link not defined')
   }
 })
