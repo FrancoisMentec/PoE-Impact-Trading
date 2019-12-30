@@ -38,7 +38,7 @@ You need to reproduce this process everytime you reboot Firefox.
 - Now you can search items and check the impact an item has on your build.
 
 ## Why it may not work
-- Your browser window is too small, so the iframe doesn't show all the required data.
+- ~~Your browser window is too small, so the iframe doesn't show all the required data.~~ Should be fixed.
 - It conflict with another script/extension. I can fix this if you fill an issue and provide me with enough informations.
 
 You can submit an issue [here](https://github.com/FrancoisMentec/PoE-Trade-Extension/issues).
