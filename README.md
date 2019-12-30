@@ -16,7 +16,7 @@ A chrome extension to check the impact an item on https://www.pathofexile.com/tr
 - Export your build, copy the code
 - Import the build on https://pob.party/
 - Get a sharable link using the **Share & Config button** (bottom left)
-- You should see a new icon in the top right corner of your browser, click on it, paste the link then click on **SET POB**
+- You should see a new icon in the top right corner of your browser, click on it, paste the link then click on **SET POB** ![](img/popup.png?raw=true)
 - Now you can go on https://www.pathofexile.com/trade (doesn't work on poe.trade) and check the impact an item has on your build
 
 ## Why it may not works
