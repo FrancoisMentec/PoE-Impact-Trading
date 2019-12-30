@@ -4,22 +4,28 @@ A browser extension to check the impact an item on https://www.pathofexile.com/t
 ![](img/capture-2.png?raw=true)
 
 ## Installation
+### Chrome
 - [Download this repository](https://github.com/FrancoisMentec/PoE-Trade-Extension/archive/master.zip).
 - Extract the archive.
-
-### Chrome
 - Go to <a href="chrome://extensions/">*chrome://extensions/*</a>.
 - Enable developer mode.
 - Click on **Load unpacked**.
 - Select the **PoE-Trade-Extension** folder you just extracted.
 
 ### Firefox
+#### From the store
+The extension is now available on the [Firefox Add-ons Store](https://addons.mozilla.org/fr/firefox/addon/poe-trade-extension/).
+
+#### Manually
+Installing manually will assure you to get the last version, but it won't update automatically and it may contain a lot of bugs.
+- [Download this repository](https://github.com/FrancoisMentec/PoE-Trade-Extension/archive/master.zip).
+- Extract the archive.
 - Go to <a href="about:debugging">*about:debugging*</a>.
 - Click on **This firefox**.
 - Click on **Load Temporary Add-on...**
 - Select the **manifest.json** file in the **PoE-Trade-Extension** folder you just extracted.  
 
-You need to reproduce this process everytime you reboot Firefox, I'll try to publish the extension later.
+You need to reproduce this process everytime you reboot Firefox.
 
 ## Use
 - Import your build in PoB (the desktop version).
