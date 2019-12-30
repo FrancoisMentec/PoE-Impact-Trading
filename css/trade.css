@@ -18,7 +18,7 @@
 }
 
 #pob-iframe.visible {
-  z-index: 1;
+  z-index: 2;
   opacity: 1;
 }
 
@@ -75,7 +75,7 @@
   position: fixed;
   top: var(--control-panel-top);
   left: 0;
-  z-index: 2;
+  z-index: 3;
   background-color: rgba(64,64,64,0.9);
   color: white;
   padding: 4px;
@@ -95,13 +95,23 @@
   top: var(--control-panel-top);
   width: 56px;
   height: 40px;
-  z-index: 2;
+  z-index: 3;
   margin: 0;
   border-radius: 0;
   border-bottom-right-radius: 4px;
   font-size: 32px;
   font-weight: normal;
 }
+
+/*#toggle-panel-button.visible {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#toggle-panel-button:hover {
+  color: #3f51b5;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.24);
+}*/
 
 #toggle-panel-button img {
   height: 100%;

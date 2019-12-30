@@ -20,6 +20,7 @@ togglePanelButton.className = 'pte-button'
 togglePanelButton.innerHTML = icon
 togglePanelButton.addEventListener('click', e => {
   controlPanel.classList.toggle('visible')
+  togglePanelButton.classList.toggle('visible')
   togglePanelButton.innerHTML = controlPanel.classList.contains('visible')
     ? '&times;'
     : icon
@@ -33,7 +34,7 @@ controlPanel.appendChild(panelTitle)
 
 let toggleButton = document.createElement('button')
 toggleButton.className = 'pte-button'
-toggleButton.innerHTML = 'Disable PoE Trade Extension'
+toggleButton.innerHTML = 'Disable for this tab'
 toggleButton.addEventListener('click', e => {
   if (pob == null) {
     loadPob()
@@ -42,16 +43,16 @@ toggleButton.addEventListener('click', e => {
     pob = null
   }
   toggleButton.innerHTML = pob == null
-    ? 'Enable PoE Trade Extension'
-    : 'Disable PoE Trade Extension'
+    ? 'Enable for this tab'
+    : 'Disable for this tab'
 })
 controlPanel.appendChild(toggleButton)
 
-controlPanel.appendChild(document.createElement('br'))
+//controlPanel.appendChild(document.createElement('br'))
 
 let togglePobVisibleButton = document.createElement('button')
 togglePobVisibleButton.className = 'pte-button'
-togglePobVisibleButton.innerHTML = 'Show/Hide PoB'
+togglePobVisibleButton.innerHTML = 'Show PoB'
 togglePobVisibleButton.addEventListener('click', e => {
   if (pob != null) {
     pob.classList.toggle('visible')
@@ -59,6 +60,9 @@ togglePobVisibleButton.addEventListener('click', e => {
       message: 'set_visible',
       value: pob.classList.contains('visible')
     }, 'https://pob.party/')
+    togglePobVisibleButton.innerHTML = pob.classList.contains('visible')
+      ? 'Hide PoB'
+      : 'Show PoB'
   }
 })
 controlPanel.appendChild(togglePobVisibleButton)
