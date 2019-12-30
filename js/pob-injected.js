@@ -202,12 +202,6 @@ function paste (value) {
 }
 
 function message (content, type='message', timeout=null, append=false) {
-  if (type == 'error') {
-    console.error(content)
-  } else {
-    console.log(content)
-  }
-
   window.top.postMessage({
     message: 'message',
     content: content,
