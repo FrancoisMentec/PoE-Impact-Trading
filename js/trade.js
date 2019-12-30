@@ -1,5 +1,7 @@
 {
-let storage = chrome.storage.sync
+let storage = /Firefox/.test(navigator.userAgent)
+  ? chrome.storage.local // Firefox sync doesn't behave like local is syncing is disabled
+  : chrome.storage.sync
 let pob = null
 let script = null
 let pobRegex = /^https:\/\/pob.party\/share\/[a-z]*$/
