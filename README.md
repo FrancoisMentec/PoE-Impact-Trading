@@ -46,9 +46,11 @@ You need to reproduce this process everytime you reboot Firefox.
 
 ## Why it may not work
 - ~~Your browser window is too small, so the iframe doesn't show all the required data.~~ Should be fixed.
-- It conflict with another script/extension. I can fix this if you fill an issue and provide me with enough informations.
+- It conflict with another script/extension. I can fix this if you fill an issue and provide me with enough information.
+- Check you get the latest version, the issue may already be fixed.
+- Try to refresh the page, reboot your browser or even your computer (you could be surprised by the amount of issues it fixes).
 
-You can submit an issue [here](https://github.com/FrancoisMentec/PoE-Trade-Extension/issues).
+You can submit an issue [here](https://github.com/FrancoisMentec/PoE-Trade-Extension/issues). Don't forget to post the content of the console (accessible with *Ctrl+Shift+i*), indicate the browser your using and the way to reproduce the error.
 
 ## How does it work
 It opens pob.party in an iframe then interact with it using user inputs and hooking drawing functions. It's not very clean but it works.
