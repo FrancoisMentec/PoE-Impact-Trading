@@ -4,7 +4,13 @@ A browser extension to check the impact an item on https://www.pathofexile.com/t
 ![](img/capture-2.png?raw=true)
 
 ## Installation
+Manual installation assure you the latest features at the cost of more bugs and no automatic update.
+
 ### Chrome
+#### From the store
+The extension isn't available on chrome webstore for now. The extension is actually classified as a spam and can't get through the validation process, I sent a message to the support team and I'm now waiting. Hopefully, it will be available soon.
+
+#### Manually
 - [Download this repository](https://github.com/FrancoisMentec/PoE-Trade-Extension/archive/master.zip).
 - Extract the archive.
 - Go to <a href="chrome://extensions/">*chrome://extensions/*</a>.
@@ -13,11 +19,12 @@ A browser extension to check the impact an item on https://www.pathofexile.com/t
 - Select the **PoE-Trade-Extension** folder you just extracted.
 
 ### Firefox
+I develop the extension using chrome, so it may encounter more errors with firefox. if you get one don't panic, you can submit an issue and specify you're using Firefox.
+
 #### From the store
 The extension is now available on the [Firefox Add-ons Store](https://addons.mozilla.org/fr/firefox/addon/poe-trade-extension/).
 
 #### Manually
-Installing manually will assure you to get the last version, but it won't update automatically and it may contain a lot of bugs.
 - [Download this repository](https://github.com/FrancoisMentec/PoE-Trade-Extension/archive/master.zip).
 - Extract the archive.
 - Go to <a href="about:debugging">*about:debugging*</a>.
