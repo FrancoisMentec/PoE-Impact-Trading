@@ -8,6 +8,13 @@ let pobRegex = /^https:\/\/pob.party\/share\/[a-z]*$/
 let icon = `<img src="${chrome.extension.getURL('img/icon-40.png')}">`
 let errorIcon = `<img src="${chrome.extension.getURL('img/error-40.png')}">`
 
+// Handle communication
+window.addEventListener('message', e => {
+  if (e.data.message == 'message') {
+    message(e.data.content, e.data.type, e.data.timeout, e.data.append)
+  }
+})
+
 // Build User Interface
 let controlPanel = document.createElement('div')
 controlPanel.setAttribute('id', 'pte-control-panel')

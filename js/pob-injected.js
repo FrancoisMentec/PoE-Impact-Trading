@@ -146,10 +146,15 @@ function triggerInput (input) {
   if (input[0] == 'skip') {
     return
   } else if (input[0].startsWith('mouse')) { // Mouse Events
-    let coords = coordsOf[input[1]]
-    if (typeof coords[0] == 'function') coords[0] = coords[0]()
-    if (typeof coords[1] == 'function') coords[1] = coords[1]()
-    glCanvas.dispatchEvent(createMouseEvent(input[0], coords[0], coords[1]))
+    try {
+      let coords = coordsOf[input[1]]
+      if (typeof coords[0] == 'function') coords[0] = coords[0]()
+      if (typeof coords[1] == 'function') coords[1] = coords[1]()
+      glCanvas.dispatchEvent(createMouseEvent(input[0], coords[0], coords[1]))
+    } catch (error) {
+      console.error(error)
+      message(`Failed to get the coordinates of "${input[1]}". Try to maximise your window then refresh the page.`, 'error')
+    }
   } else if (input[0] == 'paste') { // Paste
     /*let dt = new DataTransfer()
     dt.setData('text/plain', input[1])
@@ -162,7 +167,7 @@ function triggerInput (input) {
       composed: true
     })
     window.body.dispatchEvent(e)*/
-    Module["asm"]["Ga"].apply(null, [allocate(intArrayFromString(input[1]), "i8", ALLOC_NORMAL)])
+    Module["asm"]["Ga"].apply(null, [allocate(intArrayFromString(input[1]), "i8", ALLOC_NORMAL)]) // Doesn't work for the import field
   } else if (input[0] == 'set_item_impact') {
     window.top.postMessage({
       message: 'set_item_impact',
@@ -194,4 +199,20 @@ function moveTo (name) {
 
 function paste (value) {
   inputStack.push(['paste', value])
+}
+
+function message (content, type='message', timeout=null, append=false) {
+  if (type == 'error') {
+    console.error(content)
+  } else {
+    console.log(content)
+  }
+
+  window.top.postMessage({
+    message: 'message',
+    content: content,
+    type: type,
+    timeout: timeout,
+    append: append
+  }, '*')
 }
