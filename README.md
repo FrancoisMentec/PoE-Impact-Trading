@@ -8,13 +8,13 @@ A browser extension to check the impact an item on https://www.pathofexile.com/t
 - Extract the archive.
 
 ### Chrome
-- Go to [chrome://extensions/](chrome://extensions/).
+- Go to <a href="chrome://extensions/">chrome://extensions/</a>.
 - Enable developer mode.
 - Click on **Load unpacked**.
 - Select the **PoE-Trade-Extension** folder you just extracted.
 
 ### Firefox
-- Go to [about:debugging](about:debugging).
+- Go to <a href="about:debugging">about:debugging</a>.
 - Click on **This firefox**.
 - Click on **Load Temporary Add-on...**.
 - Select the **manifest.json** file in the **PoE-Trade-Extension** folder you just extracted.  
