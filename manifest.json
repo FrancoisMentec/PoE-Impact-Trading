@@ -16,7 +16,7 @@
   "content_scripts": [
   {
     "matches": ["https://www.pathofexile.com/trade/*"],
-    "css": ["css/trade.css"],
+    "css": ["css/style.css", "css/trade.css"],
     "js": ["js/trade.js"]
   },
   {

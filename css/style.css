@@ -1,0 +1,147 @@
+:root {
+  --control-panel-top: 0px;
+}
+
+#pob-iframe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  border: none;
+  opacity: 0;
+  min-width: 1400px;
+  min-height: 800px;
+}
+
+#pob-iframe.visible {
+  z-index: 2;
+  opacity: 1;
+}
+
+.item_impact p {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.pte-button {
+  color: white;
+  background-color: #3f51b5;
+  border-radius: 4px;
+  border: none;
+  height: 32px;
+  line-height: 32px;
+  padding: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-weight: bold;
+  text-align: center;
+  outline: none;
+  margin: 4px;
+}
+
+.pte-button:hover {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.24);
+}
+
+.pte-button:active {
+  background-color: #002984;
+}
+
+.pte-input {
+  box-sizing: border-box;
+  height: 32px;
+  line-height: 28px;
+  color: black;
+  margin: 4px;
+  padding: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+  border: 2px solid white;
+  border-radius: 4px;
+}
+
+.pte-input:active, .pte-input:focus {
+  border-color: #3f51b5;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.24);
+}
+
+#pte-control-panel {
+  transition: 0.2s;
+  max-width: 320px;
+  position: fixed;
+  top: var(--control-panel-top);
+  left: 0;
+  z-index: 3;
+  background-color: rgba(64,64,64,0.9);
+  color: white;
+  padding: 4px;
+  /*border-top-right-radius: 4px;*/
+  border-bottom-right-radius: 4px;
+  transform: translateX(-110%);
+  box-shadow: 5px 5px 10px rgb(0,0,0);
+}
+
+#pte-control-panel.visible {
+  transform: translateX(0);
+}
+
+#toggle-panel-button {
+  position: fixed;
+  left: 0;
+  top: var(--control-panel-top);
+  width: 56px;
+  height: 40px;
+  z-index: 3;
+  margin: 0;
+  border-radius: 0;
+  border-bottom-right-radius: 4px;
+  font-size: 32px;
+  font-weight: normal;
+}
+
+/*#toggle-panel-button.visible {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#toggle-panel-button:hover {
+  color: #3f51b5;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.24);
+}*/
+
+#toggle-panel-button img {
+  height: 100%;
+  width: auto;
+}
+
+#panel-title {
+  padding: 0;
+  margin: 0 0 8px 58px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 18px;
+}
+
+#pte-message {
+ margin: 4px;
+}
+
+#pte-message.error {
+  color: #f44336;
+}
+
+#github-link {
+  display: inline-block;
+  color: white;
+  margin: 4px;
+  height: 16px;
+  line-height: 16px;
+}
+
+#github-link > svg {
+  margin-right: 4px;
+  vertical-align: bottom;
+}

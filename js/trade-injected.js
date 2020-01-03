@@ -9,7 +9,14 @@ let observer = new MutationObserver((mutationsList, observer) => {
       if (node.className == 'row') {
         let text = node.getElementsByClassName('copy')[0]._v_clipboard.text()
         let dataId = node.getAttribute('data-id')
-        itemByDataId[dataId] = node
+        // Create div to contain item impact
+        let itemImpact = document.createElement('div')
+        itemImpact.className = 'item_impact'
+        itemImpact.innerHTML = 'Loading impact of the item...'
+        node.appendChild(itemImpact)
+        //document.getElementsByClassName('resultset')[0].insertBefore(itemImpact, node.nextSibling)
+
+        itemByDataId[dataId] = [node, itemImpact]
         pob.contentWindow.postMessage({
           message: 'get_item_impact',
           text: text.replace(/\(implicit\)/g, ''),
@@ -22,11 +29,16 @@ let observer = new MutationObserver((mutationsList, observer) => {
 
 window.addEventListener('message', e => {
   if (e.data.message == 'set_item_impact') {
-    let item = itemByDataId[e.data.dataId]
-    let div = document.createElement('div')
-    div.className = 'item_impact'
+    let item = itemByDataId[e.data.dataId][0]
+    let itemImpact = itemByDataId[e.data.dataId][1]
+    itemImpact.innerHTML = ''
+    let impact = null
     for (let text of e.data.itemImpact) {
-      //let res = /(\^(?:([ABCDEF0123456789])|x([ABCDEF0123456789]{6})))?([^\^]*)/g.exec(text)
+      if (/Equipping this item/.test(text)) {
+        if (impact != null) itemImpact.appendChild(impact)
+        impact = document.createElement('div')
+        impact.className = 'impact'
+      }
       let p = document.createElement('p')
       while (text.length > 0) {
         let res = /((\^([A-F0-9]|x[A-F0-9]{6}))?[^\^]+)/g.exec(text)
@@ -41,10 +53,30 @@ window.addEventListener('message', e => {
         p.appendChild(s)
 
       }
-      div.appendChild(p)
+      impact.appendChild(p)
+    }
+    if (impact != null) itemImpact.appendChild(impact)
+    if (itemImpact.children.length > 1) {
+      //itemImpact.classList.add('multiple_impact')
+    } else {
+      item.removeChild(itemImpact)
+      item.getElementsByClassName('right')[0].appendChild(itemImpact)
+      /*let resultset = document.getElementsByClassName('resultset')[0]
+      itemImpact.classList.add('multiple_impact')
+      item.getElementsByClassName('right')[0].removeChild(itemImpact)
+      let div = document.createElement('div')
+      div.className = 'row item_impact_container'
+      resultset.insertBefore(div, item)
+      resultset.removeChild(item)
+      div.appendChild(item)
+      div.appendChild(itemImpact)*/
+
+      //document.getElementsByClassName('resultset')[0].insertBefore(itemImpact, item.nextSibling)
     }
     //div.innerHTML = e.data.itemImpact.join('<br>')
-    item.getElementsByClassName('right')[0].appendChild(div)
+    //item.getElementsByClassName('right')[0].appendChild(div)
+    //item.appendChild(div)
+    //document.getElementsByClassName('resultset')[0].insertBefore(div, item.nextSibling)
   }
 }, false)
 
