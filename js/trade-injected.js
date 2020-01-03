@@ -39,6 +39,7 @@ window.addEventListener('message', e => {
         impact.className = 'impact'
       }
       let p = document.createElement('p')
+      if (/Total DPS/.test(text)) p.classList.add('highlight')
       while (text.length > 0) {
         let res = /((\^([A-F0-9]|x[A-F0-9]{6}))?[^\^]+)/g.exec(text)
         text = text.replace(res[1], '')

@@ -26,6 +26,14 @@
   padding: 0;
 }
 
+.item_impact p.highlight {
+  font-weight: bold;
+  border-radius: 4px;
+  background-color: rgba(255,255,255,0.9);
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
 .pte-button {
   color: white;
   background-color: #3f51b5;
