@@ -14,7 +14,6 @@ let observer = new MutationObserver((mutationsList, observer) => {
         itemImpact.className = 'item_impact'
         itemImpact.innerHTML = 'Loading impact of the item...'
         node.appendChild(itemImpact)
-        //document.getElementsByClassName('resultset')[0].insertBefore(itemImpact, node.nextSibling)
 
         itemByDataId[dataId] = [node, itemImpact]
         pob.contentWindow.postMessage({
@@ -56,27 +55,12 @@ window.addEventListener('message', e => {
       impact.appendChild(p)
     }
     if (impact != null) itemImpact.appendChild(impact)
-    if (itemImpact.children.length > 1) {
-      //itemImpact.classList.add('multiple_impact')
-    } else {
+    if (itemImpact.children.length > 1) { // If multiple items add the class
+      itemImpact.classList.add('multiple_impact')
+    } else { // Else move the node to the right
       item.removeChild(itemImpact)
       item.getElementsByClassName('right')[0].appendChild(itemImpact)
-      /*let resultset = document.getElementsByClassName('resultset')[0]
-      itemImpact.classList.add('multiple_impact')
-      item.getElementsByClassName('right')[0].removeChild(itemImpact)
-      let div = document.createElement('div')
-      div.className = 'row item_impact_container'
-      resultset.insertBefore(div, item)
-      resultset.removeChild(item)
-      div.appendChild(item)
-      div.appendChild(itemImpact)*/
-
-      //document.getElementsByClassName('resultset')[0].insertBefore(itemImpact, item.nextSibling)
     }
-    //div.innerHTML = e.data.itemImpact.join('<br>')
-    //item.getElementsByClassName('right')[0].appendChild(div)
-    //item.appendChild(div)
-    //document.getElementsByClassName('resultset')[0].insertBefore(div, item.nextSibling)
   }
 }, false)
 
