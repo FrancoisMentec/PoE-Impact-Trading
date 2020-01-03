@@ -92,7 +92,7 @@ function override () {
   draw.p_DrawString = function p_DrawString (x, y, align, size, font, text) {
     if (['Create', 'Cancel'].includes(text)) {
       coordsOf[text] = [x, y]
-    } else if (text.startsWith('^7Equipping this item')) {
+    } else if (/Equipping this item|Activating this flask/.test(text)/*text.startsWith('^7Equipping this item')*/) {
       itemImpactCoord = {x: x, y: y}
       itemImpact.push(text)
     } else if (itemImpactCoord != null && x == itemImpactCoord.x && y > itemImpactCoord.y) {

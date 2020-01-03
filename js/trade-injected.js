@@ -33,7 +33,7 @@ window.addEventListener('message', e => {
     itemImpact.innerHTML = ''
     let impact = null
     for (let text of e.data.itemImpact) {
-      if (/Equipping this item/.test(text)) {
+      if (/Equipping this item|Activating this flask/.test(text)) {
         if (impact != null) itemImpact.appendChild(impact)
         impact = document.createElement('div')
         impact.className = 'impact'
