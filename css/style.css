@@ -26,12 +26,16 @@
   padding: 0;
 }
 
-.item_impact p.highlight {
+/*.item_impact p.highlight {
   font-weight: bold;
   border-radius: 4px;
   background-color: rgba(255,255,255,0.9);
   padding-left: 3px;
   padding-right: 3px;
+}*/
+
+.item_impact p.highlight > * {
+  text-decoration: underline;
 }
 
 .pte-button {
