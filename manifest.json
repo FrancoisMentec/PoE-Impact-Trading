@@ -17,13 +17,19 @@
   {
     "matches": ["https://www.pathofexile.com/trade/*"],
     "css": ["css/style.css", "css/trade.css"],
-    "js": ["js/trade.js"]
+    "js": ["js/fengari-web.js", "js/trade.js"]
   },
   {
     "matches": ["https://pob.party/*"],
     "js": ["js/pob.js"],
     "all_frames": true
   }],
-  "web_accessible_resources" : ["js/trade-injected.js", "js/pob-injected.js", "img/icon-40.png", "img/error-40.png"],
+  "web_accessible_resources" : [
+    "js/trade-injected.js",
+    "js/pob-injected.js",
+    "luabit-0.4/bit.lua",
+    "PathOfBuilding/Modules/Common.lua",
+    "PathOfBuilding/Modules/Build.lua",
+    "img/icon-40.png", "img/error-40.png"],
   "permissions": ["storage"]
 }

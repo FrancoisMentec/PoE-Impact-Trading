@@ -179,5 +179,37 @@ function injectCode () {
   document.body.appendChild(script)
 }
 
-loadPob()
+//loadPob()
+
+// Dev !pob.party here
+/*script = document.createElement('script')
+script.setAttribute('type', 'text/javascript')
+script.setAttribute('src', chrome.extension.getURL('js/trade-injected-dev.js'))
+script.onload = function () {
+  window.postMessage({
+    message: 'load_wasm_lua',
+    wasm_url: chrome.extension.getURL('wasm_lua/main.wasm'),
+    js_url: chrome.extension.getURL('wasm_lua/main.js')
+  }, '*')
+}
+document.body.appendChild(script)*/
+
+function loadLua (file) {
+  let script = document.createElement('script')
+  script.setAttribute('type', 'application/lua')
+  script.setAttribute('src', chrome.extension.getURL(file))
+  /*script.onload = function () {
+    window.postMessage({
+      message: 'load_wasm_lua',
+      wasm_url: chrome.extension.getURL('wasm_lua/main.wasm'),
+      js_url: chrome.extension.getURL('wasm_lua/main.js')
+    }, '*')
+  }*/
+  document.body.appendChild(script)
+}
+
+loadLua('luabit-0.4/bit.lua')
+//loadLua('PathOfBuilding/Modules/Common.lua')
+
+
 }
