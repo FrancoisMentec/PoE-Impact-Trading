@@ -26,6 +26,11 @@ let observer = new MutationObserver((mutationsList, observer) => {
   }
 })
 
+let colorName = {
+  '^x33FF77': 'upgrade',
+  '^xDD0022': 'downgrade'
+}
+
 window.addEventListener('message', e => {
   if (e.data.message == 'set_item_impact') {
     let item = itemByDataId[e.data.dataId][0]
@@ -44,8 +49,9 @@ window.addEventListener('message', e => {
         let res = /((\^([A-F0-9]|x[A-F0-9]{6}))?[^\^]+)/g.exec(text)
         text = text.replace(res[1], '')
         let s = document.createElement('span')
-        if (res[2]) {
-          s.style.color = '#' + res[2].replace('^', '').replace('x', '')
+        if (res[2]) { // set text color
+          if (typeof colorName[res[2]] !== 'undefined') s.classList.add(colorName[res[2]])
+          else s.style.color = res[2].replace(/\^x?/, '#')
         }
         s.innerHTML = res[2]
           ? res[1].replace(res[2], '')

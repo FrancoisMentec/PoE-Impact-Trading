@@ -1,5 +1,6 @@
 :root {
   --control-panel-top: 0px;
+  --primary-color: #3f51b5;
 }
 
 #pob-iframe {
@@ -26,6 +27,18 @@
   padding: 0;
 }
 
+.item_impact .upgrade {
+  color: #33FF77;
+}
+
+.item_impact .downgrade {
+  color: #DD0022;
+}
+
+.color_scheme_1 .upgrade {
+  color: #03a9f4;
+}
+
 /*.item_impact p.highlight {
   font-weight: bold;
   border-radius: 4px;
@@ -40,7 +53,7 @@
 
 .pte-button {
   color: white;
-  background-color: #3f51b5;
+  background-color: var(--primary-color);
   border-radius: 4px;
   border: none;
   height: 32px;
@@ -76,8 +89,27 @@
 }
 
 .pte-input:active, .pte-input:focus {
-  border-color: #3f51b5;
+  border-color: var(--primary-color);
   box-shadow: 0 2px 5px rgba(0,0,0,0.24);
+}
+
+.pte-select {
+  height: 32px;
+  line-height: 28px;
+  border: 2px solid white;
+  border-radius: 4px;
+  color: black;
+  background-color: white;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.pte-label {
+  margin: 4px;
+}
+
+.pte-select:active, .pte-select:focus {
+  border-color: var(--primary-color);
 }
 
 #pte-control-panel {
@@ -120,7 +152,7 @@
 }
 
 #toggle-panel-button:hover {
-  color: #3f51b5;
+  color: var(--primary-color);
   text-shadow: 0 2px 5px rgba(0,0,0,0.24);
 }*/
 
