@@ -31,6 +31,24 @@ let colorName = {
   '^xDD0022': 'downgrade'
 }
 
+let icons = [
+  {
+    regex: /Minion:/,
+    icon: 'https://gamepedia.cursecdn.com/pathofexile_gamepedia/8/8f/Deathattunement_passive_skill_icon.png?version=8e563d05e9e4b5860b46e6919b50431c'
+  },
+  {
+    regex: /Player/,
+    icon: 'https://gamepedia.cursecdn.com/pathofexile_gamepedia/0/07/ArmourGuardsNotable_passive_skill_icon.png?version=ba75ef87dfa9550f2575924e07924a4b'
+  }
+]
+
+function getIcon(text) {
+  for (let icon of icons) {
+    if (icon.regex.test(text)) return icon.icon
+  }
+  return null
+}
+
 window.addEventListener('message', e => {
   if (e.data.message == 'set_item_impact') {
     let item = itemByDataId[e.data.dataId][0]
@@ -38,6 +56,7 @@ window.addEventListener('message', e => {
     itemImpact.innerHTML = ''
     let impact = null
     for (let text of e.data.itemImpact) {
+      //console.log(text)
       if (impact == null || /Equipping this item|Activating this flask/.test(text)) {
         if (impact != null) itemImpact.appendChild(impact)
         impact = document.createElement('div')
@@ -45,6 +64,14 @@ window.addEventListener('message', e => {
       }
       let p = document.createElement('p')
       if (/Total DPS/.test(text)) p.classList.add('highlight')
+      // Set the line icon
+      let icon = getIcon(text)
+      if (icon) {
+        let iconDiv = document.createElement('img')
+        iconDiv.setAttribute('src', icon)
+        p.appendChild(iconDiv)
+      }
+      // goes through the line to set the correct colours
       while (text.length > 0) {
         let res = /((\^([A-F0-9]|x[A-F0-9]{6}))?[^\^]+)/g.exec(text)
         text = text.replace(res[1], '')

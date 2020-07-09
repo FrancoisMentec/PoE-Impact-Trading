@@ -1,6 +1,6 @@
 {
 let storage = /Firefox/.test(navigator.userAgent)
-  ? chrome.storage.local // Firefox sync doesn't behave like local is syncing is disabled
+  ? chrome.storage.local // Firefox sync doesn't behave like local if syncing is disabled
   : chrome.storage.sync
 let pob = null
 let script = null
@@ -77,6 +77,15 @@ togglePobVisibleButton.addEventListener('click', e => {
 controlPanel.appendChild(togglePobVisibleButton)
 
 controlPanel.appendChild(document.createElement('br'))
+
+// Go to pob.party
+let pobLink = document.createElement('a')
+//pobLink.setAttribute('id', 'github-link')
+pobLink.className = 'pte-button'
+pobLink.setAttribute('target', '_blank')
+pobLink.setAttribute('href', 'https://pob.party/')
+pobLink.innerHTML = 'Open pob.party in a new tab'
+controlPanel.appendChild(pobLink)
 
 // PoB link input
 let pobLinkInput = document.createElement('input')
@@ -189,6 +198,7 @@ async function loadPob () { // Create pob iframe
     if (typeof res.build_code == 'string') {
       if (res.build_code.match(/^https:\/\/pob.party\/share\/[a-z]*$/) != null) {
         pobLinkInput.value = res.build_code
+        pobLink.setAttribute('href', res.build_code)
 
         if (pob != null) {
           unloadPob() // unload current pob first

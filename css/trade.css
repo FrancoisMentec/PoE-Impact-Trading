@@ -22,6 +22,13 @@
   margin: 5px;
 }
 
+.item_impact img {
+  width: 12px;
+  height: 12px;
+  margin: 1px;
+  vertical-align: bottom;
+}
+
 .row {
   flex-wrap: wrap !important;
 }

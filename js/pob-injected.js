@@ -132,6 +132,10 @@ function override () {
 
 override()
 
+/*
+Coordinates of a few elements
+PoB dimension are set, it's not responsive, this is why those values are hard set 
+*/
 let coordsOf = {
   'skills': [115, 70],
   'items': [188, 70],
