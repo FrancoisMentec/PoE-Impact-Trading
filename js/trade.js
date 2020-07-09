@@ -149,6 +149,37 @@ storage.get(['color_scheme'], res => {
   }
 })
 
+// Show PLayer/Minion
+function setPlayerMinion (value, save=true) {
+  document.body.classList.toggle('hide_player_impact', !/Player/.test(value))
+  document.body.classList.toggle('hide_minion_impact', !/Minion/.test(value))
+  if (playerMinionSelect.value != value) playerMinionSelect.value = value
+  if (save) {
+    storage.set({player_minion: value})
+  }
+}
+
+let playerMinionLabel = document.createElement('label')
+playerMinionLabel.classList.add('pte-label')
+playerMinionLabel.textContent = 'Show impact on'
+controlPanel.appendChild(playerMinionLabel)
+
+let playerMinionSelect = document.createElement('select')
+playerMinionSelect.classList.add('pte-select')
+playerMinionSelect.innerHTML = `
+  <option value="PlayerMinion">Player and Minion</option>
+  <option value="Player">Player only</option>
+  <option value="Minion">Minion only</option>
+`
+playerMinionSelect.addEventListener('change', e => setPlayerMinion(playerMinionSelect.value))
+controlPanel.appendChild(playerMinionSelect)
+
+storage.get(['player_minion'], res => {
+  if (typeof res.player_minion != 'undefined') {
+    setPlayerMinion(res.player_minion, false)
+  }
+})
+
 // Message
 let messageDiv = document.createElement('div')
 messageDiv.setAttribute('id', 'pte-message')

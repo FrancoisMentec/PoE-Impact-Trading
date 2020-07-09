@@ -55,6 +55,7 @@ window.addEventListener('message', e => {
     let itemImpact = itemByDataId[e.data.dataId][1]
     itemImpact.innerHTML = ''
     let impact = null
+    let impactTarget = null
     for (let text of e.data.itemImpact) {
       //console.log(text)
       if (impact == null || /Equipping this item|Activating this flask/.test(text)) {
@@ -62,7 +63,13 @@ window.addEventListener('message', e => {
         impact = document.createElement('div')
         impact.className = 'impact'
       }
+      // create line
       let p = document.createElement('p')
+      // determine if it's player or minion impact to hide if disabled
+      if (/Player:/.test(text)) impactTarget = 'player_impact'
+      else if (/Minion:/.test(text)) impactTarget = 'minion_impact'
+      if (impactTarget) p.classList.add(impactTarget)
+
       if (/Total DPS/.test(text)) p.classList.add('highlight')
       // Set the line icon
       let icon = getIcon(text)

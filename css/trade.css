@@ -32,3 +32,11 @@
 .row {
   flex-wrap: wrap !important;
 }
+
+.hide_player_impact .player_impact {
+  display: none;
+}
+
+.hide_minion_impact .minion_impact {
+  display: none;
+}
