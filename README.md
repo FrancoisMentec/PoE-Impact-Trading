@@ -4,7 +4,7 @@ A browser extension to check the impact an item on https://www.pathofexile.com/t
 ![](img/capture-2.png?raw=true)
 
 ## Installation
-Manual installation assure you the latest features at the cost of more bugs and no automatic update.
+Manual installation assure you the latest features at the cost of more bugs and no automatic update. I develop the extension on chrome because that's my default browser, but I advise using Firefox, it has far better performance (it's quite laggy on chrome).
 
 ### Chrome
 #### From the store
