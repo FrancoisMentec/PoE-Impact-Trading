@@ -2,6 +2,7 @@
   "manifest_version": 2,
   "name": "PoE-Trade-Extension",
   "version": "0.4.2",
+  "description": "A web extension for Path Of Exile players, that shows you the impact an item listed on pathofexile.com/trade has on your character."
   "browser_action": {
     "default_icon": {
       "38": "img/icon-38.png",
