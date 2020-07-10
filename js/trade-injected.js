@@ -66,7 +66,8 @@ window.addEventListener('message', e => {
       // create line
       let p = document.createElement('p')
       // determine if it's player or minion impact to hide if disabled
-      if (/Player:/.test(text)) impactTarget = 'player_impact'
+      if (/Equipping/.test(text)) impactTarget = null // reset when changing equipement slot
+      else if (/Player:/.test(text)) impactTarget = 'player_impact'
       else if (/Minion:/.test(text)) impactTarget = 'minion_impact'
       if (impactTarget) p.classList.add(impactTarget)
 
