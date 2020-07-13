@@ -4,11 +4,11 @@ A browser extension to check the impact an item on https://www.pathofexile.com/t
 ![](img/capture-2.png?raw=true)
 
 ## Installation
-Manual installation assure you the latest features at the cost of more bugs and no automatic update. I develop the extension on chrome because that's my default browser, but I advise using Firefox, it has far better performance (it's very laggy on chrome).
+Manual installation assure you the latest features at the cost of more bugs and no automatic update. I develop the extension on chrome because that's my default browser (I know, I'm a monster), but I advise using Firefox, it has far better performance (it's very laggy on chrome, no idea why I keep using it).
 
 ### Chrome
 #### From the store
-The extension isn't available on chrome webstore for now. The extension is actually classified as a spam and can't get through the validation process, I sent a message to the support team and I'm now waiting. Hopefully, it will be available soon.
+It's finally published, you can find it on the [chrome webstore](https://chrome.google.com/webstore/detail/poe-trade-extension/ckfnddafphjahhiadjogilncdegmbpkm).
 
 #### Manually
 - [Download this repository](https://github.com/FrancoisMentec/PoE-Trade-Extension/archive/master.zip).
