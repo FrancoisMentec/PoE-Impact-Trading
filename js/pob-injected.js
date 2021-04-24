@@ -160,18 +160,22 @@ function triggerInput (input) {
       message(`Failed to get the coordinates of "${input[1]}". Try to maximise your window then refresh the page.`, 'error')
     }
   } else if (input[0] == 'paste') { // Paste
-    /*let dt = new DataTransfer()
-    dt.setData('text/plain', input[1])
-    let e = new ClipboardEvent('paste', {
-      clipboardData: dt,
-      dataType: 'text/plain',
-      data: input[1],
-      bubbles: true,
-      cancelable: true,
-      composed: true
-    })
-    window.body.dispatchEvent(e)*/
-    Module["asm"]["Ga"].apply(null, [allocate(intArrayFromString(input[1]), "i8", ALLOC_NORMAL)]) // Doesn't work for the import field
+    try {
+      Module["asm"]["Ga"].apply(null, [allocate(intArrayFromString(input[1]), "i8", ALLOC_NORMAL)]) // Doesn't work for the import field
+      //doesnt seem to work for any browser anymore, fallback to the old method until a workaround can be found
+    } catch (error) {
+      let dt = new DataTransfer()
+      dt.setData('text/plain', input[1])
+      let e = new ClipboardEvent('paste', {
+        clipboardData: dt,
+        dataType: 'text/plain',
+        data: input[1],
+        bubbles: true,
+        cancelable: true,
+        composed: true
+      })
+      window.body.dispatchEvent(e)
+    }
   } else if (input[0] == 'set_item_impact') {
     window.top.postMessage({
       message: 'set_item_impact',
