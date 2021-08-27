@@ -242,13 +242,16 @@ async function loadPob () { // Create pob iframe
 
         toggleButton.innerHTML = 'Disable for this tab'
 
-        injectCode()
+        //injectCode()
       } else {
         message('Build link is incorrect: ' + res.build_code, 'error')
       }
     } else {
       message('pob.party link is not defined', 'error')
     }
+
+    injectCode()
+
     return
   })
 }

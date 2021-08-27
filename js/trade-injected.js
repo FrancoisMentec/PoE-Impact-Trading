@@ -1,26 +1,38 @@
 let itemByDataId = {}
 
+/**
+ * Observe change made to the DOM
+ * Especially when items and mods are added
+ */
 let observer = new MutationObserver((mutationsList, observer) => {
   let pob = document.getElementById('pob-iframe')
-  if (typeof pob == 'undefined' || pob == null) return // pob is disabled
 
   for (let mutation of mutationsList) {
     for (let node of mutation.addedNodes) {
-      if (node.className == 'row') {
-        let text = node.getElementsByClassName('copy')[0]._v_clipboard.text()
-        let dataId = node.getAttribute('data-id')
-        // Create div to contain item impact
-        let itemImpact = document.createElement('div')
-        itemImpact.className = 'item_impact'
-        itemImpact.innerHTML = 'Loading impact of the item...'
-        node.appendChild(itemImpact)
+      if (node.className == 'row') { // An item has been added to the DOM
+        if (typeof pob != 'undefined' && pob != null) { // PoB is enabled, we can fetch the item impact
+          let text = node.getElementsByClassName('copy')[0]._v_clipboard.text()
+          let dataId = node.getAttribute('data-id')
+          // Create div to contain item impact
+          let itemImpact = document.createElement('div')
+          itemImpact.className = 'item_impact'
+          itemImpact.innerHTML = 'Loading impact of the item...'
+          node.appendChild(itemImpact)
 
-        itemByDataId[dataId] = [node, itemImpact]
-        pob.contentWindow.postMessage({
-          message: 'get_item_impact',
-          text: text.replace(/\(implicit\)/g, ''),
-          dataId: dataId
-        }, 'https://pob.party/')
+          itemByDataId[dataId] = [node, itemImpact]
+          pob.contentWindow.postMessage({
+            message: 'get_item_impact',
+            text: text.replace(/\(implicit\)/g, ''),
+            dataId: dataId
+          }, 'https://pob.party/')
+        }
+
+        // Was supposed to add a filter to the mod, but the functionnality already exist by default (magnifying glass button)
+        for (let mod of node.querySelectorAll('.implicitMod,.explicitMod')) {
+          mod.addEventListener('click', () => {
+            console.log(mod.getElementsByClassName('s')[0].innerText.replace(/(?:\+|-)?\d+(?:\.\d+)?(%)?/, '#$1'))
+          })
+        }
       }
     }
   }
