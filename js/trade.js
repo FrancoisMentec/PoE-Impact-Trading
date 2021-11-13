@@ -36,7 +36,7 @@ document.body.appendChild(togglePanelButton)
 
 let panelTitle = document.createElement('div')
 panelTitle.setAttribute('id', 'panel-title')
-panelTitle.innerHTML = 'PoE Trade Extension'
+panelTitle.innerHTML = 'PoE Impact Trading'
 controlPanel.appendChild(panelTitle)
 
 let toggleButton = document.createElement('button')
