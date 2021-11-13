@@ -39,6 +39,26 @@ panelTitle.setAttribute('id', 'panel-title')
 panelTitle.innerHTML = 'PoE Impact Trading'
 controlPanel.appendChild(panelTitle)
 
+// The switch to enable/disable the extension (memorize the state)
+let toggleSwitch = document.createElement('input')
+toggleSwitch.setAttribute('type', 'checkbox')
+toggleSwitch.className = 'switch'
+controlPanel.appendChild(toggleSwitch)
+
+let toggleLabel = document.createElement('label')
+toggleLabel.innerText = 'Getting state...'
+controlPanel.appendChild(toggleLabel)
+
+storage.get(['enabled'], res => {
+  if (typeof res.enabled == 'undefined' || res.enabled) {
+    toggleSwitch.checked = true
+    toggleLabel.innerText = 'Enabled'
+  } else {
+    toggleSwitch.checked = false
+    toggleLabel.innerText = 'Disabled'
+  }
+})
+
 let toggleButton = document.createElement('button')
 toggleButton.className = 'pte-button'
 toggleButton.innerHTML = 'Disable for this tab'
