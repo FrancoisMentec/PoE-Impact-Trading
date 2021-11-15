@@ -52,9 +52,12 @@ window.addEventListener('message', e => {
     clickOn('create_custom')
     paste(e.data.text)
     moveTo('Create')
-    inputStack.push(['skip'])
-    inputStack.push(['set_item_impact', e.data.dataId])
+    skip()
+    setItemImpact(e.data.dataId)
     clickOn('Cancel')
+  } else if (e.data.message == 'clear') {
+    inputStack = [] // Clear the stack
+    clickOn('Cancel') // To close the item creation popup if opened
   } else if (e.data.message == 'set_visible') {
     iframeVisible = e.data.value
   }
@@ -134,7 +137,7 @@ override()
 
 /*
 Coordinates of a few elements
-PoB dimension are set, it's not responsive, this is why those values are hard set 
+PoB dimension are set, it's not responsive, this is why those values are hard set
 */
 let coordsOf = {
   'skills': [115, 70],
@@ -207,6 +210,14 @@ function moveTo (name) {
 
 function paste (value) {
   inputStack.push(['paste', value])
+}
+
+function skip () {
+  inputStack.push(['skip'])
+}
+
+function setItemImpact (id) {
+  inputStack.push(['set_item_impact', id])
 }
 
 function message (content, type='message', timeout=null, append=false) {

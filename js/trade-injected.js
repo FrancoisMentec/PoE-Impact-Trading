@@ -1,5 +1,5 @@
 let itemByDataId = {}
-let enabled = document.currentScript.getAttribute('enabled')
+let enabled = document.currentScript.getAttribute('enabled') == 'true'
 
 /**
  * Observe change made to the DOM
@@ -117,6 +117,10 @@ window.addEventListener('message', e => {
     }
   } else if (e.data.message == 'toggle') { // Toggle if the automatic impact cmpute is enabled or not
     enabled = e.data.enabled
+    if (!enabled) {
+      let pob = document.getElementById('pob-iframe') // Try to get pob
+      if (pob) pob.contentWindow.postMessage({ message: 'clear' }, 'https://pob.party/')
+    }
   }
 }, false)
 

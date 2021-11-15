@@ -157,6 +157,33 @@ label {
   left: 16px;
 }
 
+ /******************** Title ********************/
+.title-wrap {
+  display: block;
+  width: calc(100% - 8px);
+  overflow: hidden;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 24px;
+  margin: 8px 4px 4px 4px;
+}
+
+.title-wrap .title {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.title-wrap::after {
+  display: inline-block;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: white;
+  vertical-align: middle;
+}
+
+
 #pte-control-panel {
   transition: 0.2s;
   max-width: 320px;
