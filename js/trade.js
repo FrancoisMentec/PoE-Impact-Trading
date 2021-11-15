@@ -111,11 +111,8 @@ togglePobVisibleButton.addEventListener('click', e => {
 })
 controlPanel.appendChild(togglePobVisibleButton)
 
-controlPanel.appendChild(document.createElement('br'))
-
 // Go to pob.party
 let pobLink = document.createElement('a')
-//pobLink.setAttribute('id', 'github-link')
 pobLink.className = 'pte-button'
 pobLink.setAttribute('target', '_blank')
 pobLink.setAttribute('href', 'https://pob.party/')
@@ -183,6 +180,8 @@ storage.get(['color_scheme'], res => {
     setColorScheme(res.color_scheme, false)
   }
 })
+
+controlPanel.appendChild(document.createElement('br'))
 
 // Show PLayer/Minion
 function setPlayerMinion (value, save=true) {
