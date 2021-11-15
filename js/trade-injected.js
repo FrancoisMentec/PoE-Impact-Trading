@@ -1,16 +1,16 @@
 let itemByDataId = {}
+let enabled = document.currentScript.getAttribute('enabled')
 
 /**
  * Observe change made to the DOM
  * Especially when items and mods are added
  */
 let observer = new MutationObserver((mutationsList, observer) => {
-  let pob = document.getElementById('pob-iframe')
-
   for (let mutation of mutationsList) {
     for (let node of mutation.addedNodes) {
       if (node.className == 'row') { // An item has been added to the DOM
-        if (typeof pob != 'undefined' && pob != null) { // PoB is enabled, we can fetch the item impact
+        let pob = document.getElementById('pob-iframe') // Try to get pob
+        if (enabled && typeof pob != 'undefined' && pob != null) { // PoB is enabled, we can fetch the item impact
           let text = node.getElementsByClassName('copy')[0]._v_clipboard.text()
           let dataId = node.getAttribute('data-id')
           // Create div to contain item impact
@@ -115,6 +115,8 @@ window.addEventListener('message', e => {
       item.removeChild(itemImpact)
       item.getElementsByClassName('right')[0].appendChild(itemImpact)
     }
+  } else if (e.data.message == 'toggle') { // Toggle if the automatic impact cmpute is enabled or not
+    enabled = e.data.enabled
   }
 }, false)
 

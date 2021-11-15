@@ -15,7 +15,7 @@
       "128": "img/icon-128.png",
       "335": "img/icon-335.png"
     },
-    "default_title": "PoE-Trade-Extension"
+    "default_title": "PoE-Impact-Trading"
   },
   "background": {
     "scripts": ["js/background.js"]

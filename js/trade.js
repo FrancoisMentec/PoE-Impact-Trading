@@ -2,11 +2,27 @@
 let storage = /Firefox/.test(navigator.userAgent)
   ? chrome.storage.local // Firefox sync doesn't behave like local if syncing is disabled
   : chrome.storage.sync
+let enabled = null // Whether the automatic impact computation is enabled or not
 let pob = null
 let script = null
 let pobRegex = /^https:\/\/pob.party\/share\/[a-z]*$/
 let icon = `<img src="${chrome.extension.getURL('img/icon-40.png')}">`
 let errorIcon = `<img src="${chrome.extension.getURL('img/error-40.png')}">`
+
+/**
+ * Enable/Disable the impact computation
+ * @param {boolean} value - If it should be enabled or not
+ */
+function toggle (value) {
+  enabled = typeof value == 'boolean'
+    ? value
+    : !enabled
+
+  window.postMessage({
+    message: 'toggle',
+    enabled: enabled
+  })
+}
 
 // Handle communication
 window.addEventListener('message', e => {
@@ -49,33 +65,15 @@ let toggleLabel = document.createElement('label')
 toggleLabel.innerText = 'Getting state...'
 controlPanel.appendChild(toggleLabel)
 
-storage.get(['enabled'], res => {
-  if (typeof res.enabled == 'undefined' || res.enabled) {
-    toggleSwitch.checked = true
-    toggleLabel.innerText = 'Enabled'
-  } else {
-    toggleSwitch.checked = false
-    toggleLabel.innerText = 'Disabled'
-  }
+toggleSwitch.addEventListener('change', e => {
+  toggleLabel.innerText = toggleSwitch.checked
+    ? 'Enabled'
+    : 'Disabled'
+  storage.set({ enabled: toggleSwitch.checked })
+  toggle(toggleSwitch.checked)
 })
 
-let toggleButton = document.createElement('button')
-toggleButton.className = 'pte-button'
-toggleButton.innerHTML = 'Disable for this tab'
-toggleButton.addEventListener('click', e => {
-  if (pob == null) {
-    loadPob().then(() => {
-      message('You need to perform a new search to compute the impact of items.', 'message', 5000)
-    })
-  } else {
-    unloadPob()
-    toggleButton.innerHTML = 'Enable for this tab'
-    togglePobVisibleButton.innerHTML = 'Show PoB'
-  }
-})
-controlPanel.appendChild(toggleButton)
-
-//controlPanel.appendChild(document.createElement('br'))
+controlPanel.appendChild(document.createElement('br'))
 
 let togglePobVisibleButton = document.createElement('button')
 togglePobVisibleButton.className = 'pte-button'
@@ -260,8 +258,6 @@ async function loadPob () { // Create pob iframe
         pob.setAttribute('src', res.build_code)
         document.body.appendChild(pob)
 
-        toggleButton.innerHTML = 'Disable for this tab'
-
         //injectCode()
       } else {
         message('Build link is incorrect: ' + res.build_code, 'error')
@@ -269,10 +265,6 @@ async function loadPob () { // Create pob iframe
     } else {
       message('pob.party link is not defined', 'error')
     }
-
-    injectCode()
-
-    return
   })
 }
 
@@ -281,13 +273,24 @@ function unloadPob () {
   pob = null
 }
 
-function injectCode () {
+function injectCode (enabled=true) {
   if (script != null) return
   script = document.createElement('script')
   script.setAttribute('type', 'text/javascript')
   script.setAttribute('src', chrome.extension.getURL('js/trade-injected.js'))
+  script.setAttribute('enabled', enabled)
   document.body.appendChild(script)
 }
 
+// initialize
 loadPob()
+
+storage.get(['enabled'], res => {
+  enabled = typeof res.enabled == 'undefined' || res.enabled
+  injectCode(enabled)
+  toggleSwitch.checked = enabled
+  toggleLabel.innerText = enabled
+    ? 'Enabled'
+    : 'Disabled'
+})
 }
