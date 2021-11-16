@@ -1,4 +1,4 @@
-# PoE-Impact-Trading
+# PoE Impact Trading
 A browser extension to check the impact an item on https://www.pathofexile.com/trade has on your build.
 
 ![](img/capture-2.png?raw=true)
