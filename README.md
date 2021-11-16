@@ -34,7 +34,7 @@ The extension is now available on the [Firefox Add-ons Store](https://addons.moz
 
 You need to reproduce this process everytime you reboot Firefox.
 
-## Use
+## Import your build
 - Import your build in PoB (the desktop version).
 - Be sure to select the spell on which you want to see the impact.
 - Export your build, copy the code.
@@ -43,6 +43,21 @@ You need to reproduce this process everytime you reboot Firefox.
 - You should see a icon in the top left corner of https://www.pathofexile.com/trade page, click on it, paste the link in the text field then click on **SET LINK**.
 - ![](img/control-panel.png?raw=true).
 - Now you can search items and check the impact an item has on your build.
+
+**Why can't I put pob code directly into the extension?**  
+The extension interacts with pob.party through user events (e.g. mouse clicks), but for an unknown reason I can't paste or type anything in the import field when it is opened in an iframe. View [Issue#10](https://github.com/FrancoisMentec/PoE-Impact-Trading/issues/10).
+
+## Functionalities
+- Enable/Disable the automatic computation of item impact. The state will be saved and shared with newly opened tabs.
+- Compute the impact of a specific item through a button located below the item. This is only available if the automatic computation is disabled.
+- Show pob.party. You can look at your build on pob.party directly from the trade website. But if the extension is currently using it to compute item impact you'll see frantic items creation and shouldn't interact with it. It can be used for debug purpose.
+- Open pob.party in a new tab. Useful if you want to look at your build without interfering with the item impact computations.
+- Set build link. Allow you to import your build into the app using a pob.party sharing link.
+- Color scheme. Change the colors used by the extension. Implemented at the request of colorblind users, don't hesitate to ask if you need a new scheme.
+- Show impact on player/minions. Allow you to select if you want to see the impact only on player, only on minions, or on both.
+- Item Filter. Filter which item you want to replace when computing the impact, useful for jewels and rings. The filtering is done on the first two lines, example: "Equipping this item in Ring 1 will give you: (replacing Circle of Guilt, Iron Ring)". It allows regular expressions, example: "#([3-57]|12)" will show impact if replacing jewels 3, 4, 5, 7 and 12.
+
+Hopefully more coming soon.
 
 ## Why it may not work
 - ~~Your browser window is too small, so the iframe doesn't show all the required data.~~ Should be fixed.
