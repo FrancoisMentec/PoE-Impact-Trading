@@ -227,30 +227,30 @@ storage.get(['player_minion'], res => {
 
 addSetting('Show impact on', playerMinionSelect)
 
-/* Filter
+/* Filter item
  * Filter items for which replacement impact should be shown
  * Useful for jewels and rings
  */
-let filterInput = document.createElement('input')
-filterInput.className = 'pte-input'
-filterInput.setAttribute('placeholder', '#2, circle of guilt, ...')
+let itemFilterInput = document.createElement('input')
+itemFilterInput.className = 'pte-input'
+itemFilterInput.setAttribute('placeholder', '#2, circle of guilt, ...')
 
-storage.get(['filter'], res => {
-  if (res.filter) filterInput.value = res.filter
+storage.get(['item_filter'], res => {
+  if (res.item_filter) itemFilterInput.value = res.item_filter
 })
 
-filterInput.addEventListener('change', e => {
-  message(`Filter set to "${filterInput.value}", make a new search to update.`, 'message', 3000)
+itemFilterInput.addEventListener('change', e => {
+  message(`Filter set to "${itemFilterInput.value}", make a new search to update.`, 'message', 3000)
 
   window.postMessage({
-    message: 'filter',
-    filter: filterInput.value
+    message: 'item_filter',
+    item_filter: itemFilterInput.value
   })
 
-  storage.set({ filter: filterInput.value })
+  storage.set({ item_filter: itemFilterInput.value })
 })
 
-addSetting('Filter', filterInput)
+addSetting('Item filter', itemFilterInput)
 
 // Message
 let messageDiv = document.createElement('div')
@@ -317,13 +317,13 @@ function unloadPob () {
   pob = null
 }
 
-function injectCode (enabled=true, filter='') {
+function injectCode (enabled=true, item_filter='') {
   if (script != null) return
   script = document.createElement('script')
   script.setAttribute('type', 'text/javascript')
   script.setAttribute('src', chrome.extension.getURL('js/trade-injected.js'))
   script.setAttribute('enabled', enabled)
-  script.setAttribute('filter', filter)
+  script.setAttribute('item_filter', item_filter)
   document.body.appendChild(script)
 }
 
@@ -349,7 +349,7 @@ function setBuild (build_code) {
 }
 
 // initialize
-storage.get(['build_code', 'enabled', 'filter'], res => {
+storage.get(['build_code', 'enabled', 'item_filter'], res => {
   if (res.build_code) {
     pobLinkInput.value = res.build_code
     setBuild(res.build_code)
@@ -359,7 +359,7 @@ storage.get(['build_code', 'enabled', 'filter'], res => {
   }
 
   enabled = typeof res.enabled == 'undefined' || res.enabled
-  injectCode(enabled, res.filter || '')
+  injectCode(enabled, res.item_filter || '')
   toggleSwitch.checked = enabled
   toggleLabel.innerText = enabled
     ? 'Enabled'

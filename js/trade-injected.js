@@ -1,8 +1,8 @@
 let itemByDataId = {}
 let enabled = document.currentScript.getAttribute('enabled') == 'true'
-let filter = document.currentScript.getAttribute('filter')
-filter = filter && filter.length > 0
-  ? new RegExp(filter, 'gi')
+let item_filter = document.currentScript.getAttribute('item_filter')
+item_filter = item_filter && item_filter.length > 0
+  ? new RegExp(item_filter, 'gi')
   : null
 
 // We clear the stack if the search change
@@ -89,7 +89,7 @@ window.addEventListener('message', e => {
     for (let text of e.data.itemImpact) {
       //console.log(text)
       if (impact == null || /Equipping this item|Activating this flask/.test(text)) {
-        if (impact != null && (!filter || filter.length <= 0 || filter.test(impact.children[0].innerText + impact.children[1].innerText))) {
+        if (impact != null && (!item_filter || item_filter.length <= 0 || item_filter.test(impact.children[0].innerText + impact.children[1].innerText))) {
           // If there is an impact and it match the filter or there's no filter, we add it
           itemImpact.appendChild(impact)
         }
@@ -129,7 +129,7 @@ window.addEventListener('message', e => {
       }
       impact.appendChild(p)
     }
-    if (impact != null && (!filter || filter.length <= 0 || filter.test(impact.children[0].innerText + impact.children[1].innerText))) {
+    if (impact != null && (!item_filter || item_filter.length <= 0 || item_filter.test(impact.children[0].innerText + impact.children[1].innerText))) {
       // If there is an impact and it match the filter or there's no filter, we add it
       itemImpact.appendChild(impact)
     }
@@ -145,9 +145,9 @@ window.addEventListener('message', e => {
       let pob = document.getElementById('pob-iframe') // Try to get pob
       if (pob) pob.contentWindow.postMessage({ message: 'clear' }, 'https://pob.party/')
     }
-  } else if (e.data.message == 'filter') { // update the filter
-    filter = e.data.filter && e.data.filter.length > 0
-      ? new RegExp(e.data.filter, 'gi')
+  } else if (e.data.message == 'item_filter') { // update the filter
+    item_filter = e.data.item_filter && e.data.item_filter.length > 0
+      ? new RegExp(e.data.item_filter, 'gi')
       : null
   }
 }, false)

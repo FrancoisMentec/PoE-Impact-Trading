@@ -171,13 +171,15 @@ function triggerInput (input) {
     return
   } else if (input[0].startsWith('mouse')) { // Mouse Events
     try {
+      if (typeof coordsOf[input[1]] == 'undefined')
+        throw new Error(`Failed to get the coordinates of "${input[1]}". Try to maximise your window then refresh the page.`)
       let coords = coordsOf[input[1]]
       if (typeof coords[0] == 'function') coords[0] = coords[0]()
       if (typeof coords[1] == 'function') coords[1] = coords[1]()
       glCanvas.dispatchEvent(createMouseEvent(input[0], coords[0], coords[1]))
     } catch (error) {
       console.error(error)
-      message(`Failed to get the coordinates of "${input[1]}". Try to maximise your window then refresh the page.`, 'error')
+      message(error, 'error')
     }
   } else if (input[0] == 'paste') { // Paste
     try {
