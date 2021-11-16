@@ -266,3 +266,18 @@
   margin-right: 4px;
   vertical-align: bottom;
 }
+
+.trade-button {
+  height: 18px;
+  line-height: 14px !important; /* -2px for borders and -2 for padding */
+  padding: 1px 5px !important;
+  color: #e9cf9f !important;
+}
+
+.trade-button:hover {
+  border-color: #444 !important;
+}
+
+#pit-footer {
+  margin-top: 24px;
+}

@@ -12,12 +12,31 @@ document.addEventListener('click', evt => {
     pob.contentWindow.postMessage({ message: 'clear' }, 'https://pob.party/')
   }
 })
-/*for (let c of ['livesearch-btn', 'search-btn', 'clear-btn']) {
-  document.getElementsByClassName(c)[0].addEventListener('click', () => {
-    let pob = document.getElementById('pob-iframe')
-    if (pob) pob.contentWindow.postMessage({ message: 'clear' }, 'https://pob.party/')
-  })
-}*/
+
+/**
+ * Ask pob for the item impact
+ * Won't return the impact, it is handled in onMessage
+ * @param {Node} node - The item node
+ */
+function askItemImpact (node) {
+  let pob = document.getElementById('pob-iframe') // Try to get pob
+  if (pob) {
+    let text = node.getElementsByClassName('copy')[0]._v_clipboard.text()
+    let dataId = node.getAttribute('data-id')
+    // Create div to contain item impact
+    let itemImpact = document.createElement('div')
+    itemImpact.className = 'item_impact'
+    itemImpact.innerHTML = 'Loading impact of the item...'
+    node.appendChild(itemImpact)
+
+    itemByDataId[dataId] = [node, itemImpact]
+    pob.contentWindow.postMessage({
+      message: 'get_item_impact',
+      text: text.replace(/\(implicit\)/g, ''),
+      dataId: dataId
+    }, 'https://pob.party/')
+  }
+}
 
 /**
  * Observe change made to the DOM
@@ -27,22 +46,17 @@ let observer = new MutationObserver((mutationsList, observer) => {
   for (let mutation of mutationsList) {
     for (let node of mutation.addedNodes) {
       if (node.className == 'row') { // An item has been added to the DOM
-        let pob = document.getElementById('pob-iframe') // Try to get pob
-        if (enabled && typeof pob != 'undefined' && pob != null) { // PoB is enabled, we can fetch the item impact
-          let text = node.getElementsByClassName('copy')[0]._v_clipboard.text()
-          let dataId = node.getAttribute('data-id')
-          // Create div to contain item impact
-          let itemImpact = document.createElement('div')
-          itemImpact.className = 'item_impact'
-          itemImpact.innerHTML = 'Loading impact of the item...'
-          node.appendChild(itemImpact)
-
-          itemByDataId[dataId] = [node, itemImpact]
-          pob.contentWindow.postMessage({
-            message: 'get_item_impact',
-            text: text.replace(/\(implicit\)/g, ''),
-            dataId: dataId
-          }, 'https://pob.party/')
+        if (enabled) {
+          askItemImpact(node)
+        } else { // Not enabled, propose a link to get stats
+          let button = document.createElement('button')
+          button.className = 'btn btn-default trade-button'
+          button.innerText = 'Compute the impact of the item'
+          button.addEventListener('click', () => {
+            node.removeChild(button)
+            askItemImpact(node)
+          })
+          node.appendChild(button)
         }
 
         // Was supposed to add a filter to the mod, but the functionnality already exist by default (magnifying glass button)
