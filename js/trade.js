@@ -41,6 +41,26 @@ function addTitle (label) {
   controlPanel.appendChild(wrap)
 }
 
+/**
+ * Add a setting to the panel
+ * @param {String|Component} label - The label of the setting
+ * @param {Component} input - The input of the setting
+ */
+function addSetting (label, input) {
+  let wrap = document.createElement('div')
+  wrap.className = 'setting-wrap'
+
+  if (typeof label == 'string') {
+    let temp = label
+    label = document.createElement('label')
+    label.className = 'pte-label'
+    label.innerText = temp
+  }
+  wrap.appendChild(label)
+  wrap.appendChild(input)
+  controlPanel.appendChild(wrap)
+}
+
 // Handle communication
 window.addEventListener('message', e => {
   if (e.data.message == 'message') {
@@ -157,11 +177,6 @@ function setColorScheme (colorScheme, save=true) {
   }
 }
 
-let colorSchemeLabel = document.createElement('label')
-colorSchemeLabel.classList.add('pte-label')
-colorSchemeLabel.textContent = 'Color Scheme'
-controlPanel.appendChild(colorSchemeLabel)
-
 let colorSchemeSelect = document.createElement('select')
 colorSchemeSelect.classList.add('pte-select')
 for (let colorScheme in colorSchemes) {
@@ -173,15 +188,14 @@ for (let colorScheme in colorSchemes) {
 colorSchemeSelect.addEventListener('change', e => {
   setColorScheme(colorSchemeSelect.value)
 })
-controlPanel.appendChild(colorSchemeSelect)
+
+addSetting('Color Scheme', colorSchemeSelect)
 
 storage.get(['color_scheme'], res => {
   if (typeof res.color_scheme != 'undefined') {
     setColorScheme(res.color_scheme, false)
   }
 })
-
-controlPanel.appendChild(document.createElement('br'))
 
 // Show PLayer/Minion
 function setPlayerMinion (value, save=true) {
@@ -193,11 +207,6 @@ function setPlayerMinion (value, save=true) {
   }
 }
 
-let playerMinionLabel = document.createElement('label')
-playerMinionLabel.classList.add('pte-label')
-playerMinionLabel.textContent = 'Show impact on'
-controlPanel.appendChild(playerMinionLabel)
-
 let playerMinionSelect = document.createElement('select')
 playerMinionSelect.classList.add('pte-select')
 playerMinionSelect.innerHTML = `
@@ -206,7 +215,6 @@ playerMinionSelect.innerHTML = `
   <option value="Minion">Minion only</option>
 `
 playerMinionSelect.addEventListener('change', e => setPlayerMinion(playerMinionSelect.value))
-controlPanel.appendChild(playerMinionSelect)
 
 storage.get(['player_minion'], res => {
   if (typeof res.player_minion != 'undefined') {
@@ -214,21 +222,15 @@ storage.get(['player_minion'], res => {
   }
 })
 
-controlPanel.appendChild(document.createElement('br'))
+addSetting('Show impact on', playerMinionSelect)
 
 /* Filter
  * Filter items for which replacement impact should be shown
  * Useful for jewels and rings
  */
-let filterLabel = document.createElement('label')
-filterLabel.classList.add('pte-label')
-filterLabel.textContent = 'Filter'
-controlPanel.appendChild(filterLabel)
-
 let filterInput = document.createElement('input')
 filterInput.className = 'pte-input'
 filterInput.setAttribute('placeholder', '#2, circle of guilt, ...')
-controlPanel.appendChild(filterInput)
 
 storage.get(['filter'], res => {
   if (res.filter) filterInput.value = res.filter
@@ -244,6 +246,8 @@ filterInput.addEventListener('change', e => {
 
   storage.set({ filter: filterInput.value })
 })
+
+addSetting('Filter', filterInput)
 
 // Message
 let messageDiv = document.createElement('div')

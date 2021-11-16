@@ -82,8 +82,17 @@
   opacity: 1;
 }
 
-label {
-  margin: 4px;
+.setting-wrap {
+  display: flex;
+  width: calc(100% - 8px);
+  height: 32px;
+  line-height: 32px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.setting-wrap > .pte-label {
+  line-height: 32px;
 }
 
 .item_impact p {
@@ -130,7 +139,6 @@ label {
   font-weight: bold;
   text-align: center;
   outline: none;
-  margin: 4px;
   text-decoration: none !important;
 }
 
@@ -147,7 +155,6 @@ label {
   height: 32px;
   line-height: 28px;
   color: black;
-  margin: 4px;
   padding: 0;
   padding-left: 8px;
   padding-right: 8px;
@@ -167,12 +174,7 @@ label {
   border-radius: 4px;
   color: black;
   background-color: white;
-  margin: 4px;
   cursor: pointer;
-}
-
-.pte-label {
-  margin: 4px;
 }
 
 .pte-select:active, .pte-select:focus {
