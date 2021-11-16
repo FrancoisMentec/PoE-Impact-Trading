@@ -1,10 +1,13 @@
 {
-let storage = /Firefox/.test(navigator.userAgent)
-  ? chrome.storage.local // Firefox sync doesn't behave like local if syncing is disabled
-  : chrome.storage.sync
-let manifest = /Chrome/.test(navigator.userAgent)
+// Can't use synced storage for pob build code because they are too long
+const storage = /Chrome/.test(navigator.userAgent)
+  ? chrome.storage.sync
+  : browser.storage.local
+const manifest = /Chrome/.test(navigator.userAgent)
   ? chrome.runtime.getManifest()
   : browser.runtime.getManifest()
+const POB_PARTY_REGEX = /^https:\/\/pob.party\/share\/[a-z]*$/
+const POB_CODE_REGEX = /^([0-9A-z-=])+$/
 let enabled = null // Whether the automatic impact computation is enabled or not
 let pob = null
 let script = null
@@ -150,8 +153,8 @@ pobLinkButton.className = 'pte-button'
 pobLinkButton.innerHTML = 'SET LINK'
 pobLinkButton.addEventListener('click', e => {
   storage.set({build_code: pobLinkInput.value}, () => {
-    message('Build link set: ' + pobLinkInput.value + '<br>You need to perform a new search to update the values.', 'message', 8000)
-    loadPob()
+    setBuild(pobLinkInput.value)
+    message('Build link set, you need to perform a new search to update the values.', 'message', 5000)
   })
 })
 controlPanel.appendChild(pobLinkButton)
@@ -298,30 +301,15 @@ footer.appendChild(githubLink)
 controlPanel.appendChild(footer)
 
 // Get pob link, load pob and inject code
-async function loadPob () { // Create pob iframe
-  storage.get(['build_code'], res => {
-    if (typeof res.build_code == 'string') {
-      if (res.build_code.match(/^https:\/\/pob.party\/share\/[a-z]*$/) != null) {
-        pobLinkInput.value = res.build_code
-        pobLink.setAttribute('href', res.build_code)
+async function loadPob (src='https://pob.party') { // Create pob iframe
+  if (pob != null) unloadPob() // unload current pob first
 
-        if (pob != null) {
-          unloadPob() // unload current pob first
-        }
+  pobLink.setAttribute('href', src)
 
-        pob = document.createElement('iframe')
-        pob.setAttribute('id', 'pob-iframe')
-        pob.setAttribute('src', res.build_code)
-        document.body.appendChild(pob)
-
-        //injectCode()
-      } else {
-        message('Build link is incorrect: ' + res.build_code, 'error')
-      }
-    } else {
-      message('pob.party link is not defined', 'error')
-    }
-  })
+  pob = document.createElement('iframe')
+  pob.setAttribute('id', 'pob-iframe')
+  pob.setAttribute('src', src)
+  document.body.appendChild(pob)
 }
 
 function unloadPob () {
@@ -339,10 +327,37 @@ function injectCode (enabled=true, filter='') {
   document.body.appendChild(script)
 }
 
-// initialize
-loadPob()
+/**
+ * Set The build
+ * @param {String} build_code - Can be a pob.party sharing link, or a pob code
+ */
+function setBuild (build_code) {
+  if (build_code.match(POB_PARTY_REGEX)) { // Sharing link
+    loadPob(build_code)
+  } else {
+    if (!pob) loadPob()
+    if (build_code.match(POB_CODE_REGEX)) {
+      console.log('send message')
+      pob.contentWindow.postMessage({
+        message: 'set_build',
+        build_code: build_code
+      })
+    } else {
+      message('build code is invalid, it must be a pob export code or a pob.party sharing link.', 'error')
+    }
+  }
+}
 
-storage.get(['enabled', 'filter'], res => {
+// initialize
+storage.get(['build_code', 'enabled', 'filter'], res => {
+  if (res.build_code) {
+    pobLinkInput.value = res.build_code
+    setBuild(res.build_code)
+  } else {
+    loadPob() // Load pob anyway so it's done if the user give a pob code and ressources will be cached
+    message('pob.party link is not defined', 'error')
+  }
+
   enabled = typeof res.enabled == 'undefined' || res.enabled
   injectCode(enabled, res.filter || '')
   toggleSwitch.checked = enabled

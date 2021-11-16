@@ -1,4 +1,5 @@
-let inputStack = []
+let importStack = [] // Used to import the build, highest priority stack, can only be cleared by a new import message
+let inputStack = [] // Regular stack to compute item impact
 let overrided = false
 let iframeVisible = false
 
@@ -60,7 +61,21 @@ window.addEventListener('message', e => {
     clickOn('Cancel') // To close the item creation popup if opened
   } else if (e.data.message == 'set_visible') {
     iframeVisible = e.data.value
-  }
+  } else if (e.data.message == 'set_build') {
+    console.log('received message')
+    importStack = [
+      ['mousedown', 'import/export'],
+      ['mouseup', 'import/export'],
+      ['mousedown', 'import_code'],
+      ['mouseup', 'import_code'],
+      ['paste', e.data.build_code],
+      ['mousedown', 'import'],
+      ['mouseup', 'import']
+    ]
+  }/* else { // Some messages sent by pob.party itself would trigger this
+    console.error('Unknown message: ' + e.data.message)
+    console.error(e)
+  }*/
 
   if (typeof Browser != 'undefined') {
     try {
@@ -84,7 +99,9 @@ function override () {
     for (let p of propertiesList) {
       p.update()
     }
-    if (inputStack.length > 0) {
+    if (importStack.length > 0) {
+      triggerInput(importStack.shift())
+    } else if (inputStack.length > 0) {
       triggerInput(inputStack.shift())
     } else if (window.self !== window.top && !iframeVisible) {
       Browser.mainLoop.pause() // pause to save GPU
