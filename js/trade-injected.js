@@ -1,5 +1,23 @@
 let itemByDataId = {}
 let enabled = document.currentScript.getAttribute('enabled') == 'true'
+let filter = document.currentScript.getAttribute('filter')
+filter = filter && filter.length > 0
+  ? new RegExp(filter, 'gi')
+  : null
+
+// We clear the stack if the search change
+document.addEventListener('click', evt => {
+  let pob = document.getElementById('pob-iframe')
+  if (pob && evt.path.some(e => ['livesearch-btn', 'search-btn', 'clear-btn'].some(c => e.classList && e.classList.contains(c)))) {
+    pob.contentWindow.postMessage({ message: 'clear' }, 'https://pob.party/')
+  }
+})
+/*for (let c of ['livesearch-btn', 'search-btn', 'clear-btn']) {
+  document.getElementsByClassName(c)[0].addEventListener('click', () => {
+    let pob = document.getElementById('pob-iframe')
+    if (pob) pob.contentWindow.postMessage({ message: 'clear' }, 'https://pob.party/')
+  })
+}*/
 
 /**
  * Observe change made to the DOM
@@ -71,7 +89,10 @@ window.addEventListener('message', e => {
     for (let text of e.data.itemImpact) {
       //console.log(text)
       if (impact == null || /Equipping this item|Activating this flask/.test(text)) {
-        if (impact != null) itemImpact.appendChild(impact)
+        if (impact != null && (!filter || filter.length <= 0 || filter.test(impact.children[0].innerText + impact.children[1].innerText))) {
+          // If there is an impact and it match the filter or there's no filter, we add it
+          itemImpact.appendChild(impact)
+        }
         impact = document.createElement('div')
         impact.className = 'impact'
       }
@@ -108,7 +129,10 @@ window.addEventListener('message', e => {
       }
       impact.appendChild(p)
     }
-    if (impact != null) itemImpact.appendChild(impact)
+    if (impact != null && (!filter || filter.length <= 0 || filter.test(impact.children[0].innerText + impact.children[1].innerText))) {
+      // If there is an impact and it match the filter or there's no filter, we add it
+      itemImpact.appendChild(impact)
+    }
     if (itemImpact.children.length > 1) { // If multiple items add the class
       itemImpact.classList.add('multiple_impact')
     } else { // Else move the node to the right
@@ -121,6 +145,10 @@ window.addEventListener('message', e => {
       let pob = document.getElementById('pob-iframe') // Try to get pob
       if (pob) pob.contentWindow.postMessage({ message: 'clear' }, 'https://pob.party/')
     }
+  } else if (e.data.message == 'filter') { // update the filter
+    filter = e.data.filter && e.data.filter.length > 0
+      ? new RegExp(e.data.filter, 'gi')
+      : null
   }
 }, false)
 

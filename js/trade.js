@@ -214,6 +214,37 @@ storage.get(['player_minion'], res => {
   }
 })
 
+controlPanel.appendChild(document.createElement('br'))
+
+/* Filter
+ * Filter items for which replacement impact should be shown
+ * Useful for jewels and rings
+ */
+let filterLabel = document.createElement('label')
+filterLabel.classList.add('pte-label')
+filterLabel.textContent = 'Filter'
+controlPanel.appendChild(filterLabel)
+
+let filterInput = document.createElement('input')
+filterInput.className = 'pte-input'
+filterInput.setAttribute('placeholder', '#2, circle of guilt, ...')
+controlPanel.appendChild(filterInput)
+
+storage.get(['filter'], res => {
+  if (res.filter) filterInput.value = res.filter
+})
+
+filterInput.addEventListener('change', e => {
+  message(`Filter set to "${filterInput.value}", make a new search to update.`, 'message', 3000)
+
+  window.postMessage({
+    message: 'filter',
+    filter: filterInput.value
+  })
+
+  storage.set({ filter: filterInput.value })
+})
+
 // Message
 let messageDiv = document.createElement('div')
 messageDiv.setAttribute('id', 'pte-message')
@@ -294,21 +325,22 @@ function unloadPob () {
   pob = null
 }
 
-function injectCode (enabled=true) {
+function injectCode (enabled=true, filter='') {
   if (script != null) return
   script = document.createElement('script')
   script.setAttribute('type', 'text/javascript')
   script.setAttribute('src', chrome.extension.getURL('js/trade-injected.js'))
   script.setAttribute('enabled', enabled)
+  script.setAttribute('filter', filter)
   document.body.appendChild(script)
 }
 
 // initialize
 loadPob()
 
-storage.get(['enabled'], res => {
+storage.get(['enabled', 'filter'], res => {
   enabled = typeof res.enabled == 'undefined' || res.enabled
-  injectCode(enabled)
+  injectCode(enabled, res.filter || '')
   toggleSwitch.checked = enabled
   toggleLabel.innerText = enabled
     ? 'Enabled'
