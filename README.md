@@ -22,7 +22,7 @@ It's finally published, you can find it on the [chrome webstore](https://chrome.
 I develop the extension using chrome, so it may encounter more errors with firefox. if you get one don't panic, you can submit an issue and specify you're using Firefox.
 
 #### From the store
-The extension is now available on the [Firefox Add-ons Store](https://addons.mozilla.org/fr/firefox/addon/poe-trade-extension/).
+The extension is now available on the [Firefox Add-ons Store](https://addons.mozilla.org/fr/firefox/addon/poe-impact-trading/).
 
 #### Manually
 - [Download this repository](https://github.com/FrancoisMentec/PoE-Trade-Extension/archive/master.zip).
