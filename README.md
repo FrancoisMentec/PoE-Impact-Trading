@@ -1,3 +1,8 @@
+# WARNING!!!
+pob.party is going down the October 25th 2022 along poe.trade.   
+This extension relied on pob.party to compute the impact of items in the browser. Without is it will stop working.
+I currently have no plan to develop an alternative.
+
 # PoE Impact Trading
 A browser extension to check the impact an item on https://www.pathofexile.com/trade has on your build.
 
